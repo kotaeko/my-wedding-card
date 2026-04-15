@@ -1,0 +1,50 @@
+/* animations.css — 스크롤 페이드인 및 전환 효과 */
+
+/* 초기 상태: 보이지 않음 + 살짝 아래 */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+
+/* 화면에 들어오면 표시 */
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hero 콘텐츠 처음 로드 시 나타나기 */
+.hero-content {
+  animation: heroFadeUp 1.2s ease 0.3s both;
+}
+.scroll-hint {
+  animation: heroFadeUp 1.2s ease 0.8s both;
+}
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 갤러리 아이템 순차 등장 */
+.gallery-item {
+  animation: none; /* JS에서 index 기반으로 delay 설정 가능 */
+}
+
+/* 계좌 복사 완료 애니메이션 */
+.copy-btn.copied {
+  animation: copyFlash 0.3s ease;
+}
+@keyframes copyFlash {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(0.93); }
+  100% { transform: scale(1); }
+}

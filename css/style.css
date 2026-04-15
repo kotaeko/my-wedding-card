@@ -1,0 +1,1293 @@
+/* style.css — 전체 레이아웃 및 섹션 스타일 */
+
+/* ── 리셋 & 기본 ────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  /* IE, Edge 스크롤바 숨기기 (shift 방지) */
+  scrollbar-width: none;
+  /* Firefox 스크롤바 숨기기 */
+  overflow-x: hidden;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera 스크롤바 숨기기 */
+}
+
+body {
+  font-family: var(--font-serif);
+  font-size: var(--fs-base);
+  color: var(--color-text);
+  background: #e8e0d8;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+/* ── 로딩 오버레이 ──────────────────────────────────────── */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: #e8e0d8;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.9s ease;
+  pointer-events: all;
+}
+
+.loading-overlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-ring {
+  width: 32px;
+  height: 32px;
+  border: 2px solid rgba(184, 149, 106, 0.25);
+  border-top-color: #b8956a;
+  border-radius: 50%;
+  animation: loading-spin 1s linear infinite;
+}
+
+@keyframes loading-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── 핸드폰 프레임 ───────────────────────────────────────── */
+.phone-frame {
+  width: 100%;
+  max-width: 480px;
+  background: var(--color-bg);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+body.loaded .phone-frame {
+  opacity: 1;
+}
+
+/* ── 공통 섹션 ──────────────────────────────────────────── */
+.section {
+  width: 100%;
+}
+
+.section-inner {
+  padding: var(--space-xl) var(--space-md);
+  text-align: center;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: var(--color-primary);
+  margin-bottom: var(--space-md);
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--color-primary-light);
+  margin: var(--space-xs) auto 0;
+}
+
+/* ── ① 커버 (Sleeve 봉투 애니메이션) ────────────────────────────────────────── */
+.section-hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background: #fdfdfd;
+  padding-top: 0;
+  /* 상단 여백 완전 제거 (화면 꽉 차게) */
+  margin: 0;
+}
+
+/* ── Envelope Scene ── */
+.envelope-scene {
+  position: relative;
+  width: 100%;
+  /* 좌우 여백 완전 제거 */
+  max-width: 100%;
+  aspect-ratio: 3.4 / 5.2;
+  z-index: 20;
+}
+
+/* Envelope Back */
+.envelope-back {
+  position: absolute;
+  top: 0;
+  margin-top: 32%;
+  will-change: transform, opacity;
+  /* 상단 달력을 덮지 않도록 전체 봉투 시작점 하향 */
+  left: 0;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3.4 / 4.2;
+  background: #f7f7f7;
+  /* 아주 밝은 이너 페이퍼 질감 */
+  border-radius: 4px;
+  z-index: 1;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+  transition: transform 2.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0s;
+  /* 다시 올라올 때는 딜레이/트랜지션 없이 투명도 0(완전 불투명) 적용 */
+}
+
+/* 튀어나온 편지지 & 래퍼 */
+.letter-scroll-wrapper {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  top: 0;
+  height: 100%;
+  overflow: hidden;
+  z-index: 2;
+  border-radius: 4px;
+}
+
+.main-letter {
+  background: #ffffff;
+  width: 100%;
+  min-height: 1000px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 2.2s cubic-bezier(0.25, 1, 0.5, 1);
+  padding-bottom: 60px;
+  will-change: transform;
+}
+
+/* Envelope Front */
+.envelope-front {
+  position: absolute;
+  top: 0;
+  margin-top: 32%;
+  left: 0;
+  will-change: transform, opacity;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3.4 / 4.2;
+  z-index: 3;
+  pointer-events: none;
+  /* 봉투 상단 경계선을 살리기 위한 상향 음영(-3px)과 전체적인 큰 볼륨감(16px)을 다중으로 적용 */
+  filter: drop-shadow(0 -3px 12px rgba(0, 0, 0, 0.08)) drop-shadow(0 8px 16px rgba(0, 0, 0, 0.06));
+  transition: transform 2.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0s;
+}
+
+.env-mask-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 4px;
+}
+
+/* 화면 길이에 구애받지 않고 봉투로 풀스크린을 채우도록 연장해주는 빈 가상 요소 */
+.envelope-bottom-extension {
+  position: absolute;
+  top: 99%;
+  left: 0;
+  width: 100%;
+  height: 60vh;
+  background: #ffffff;
+  pointer-events: none;
+}
+
+/* Ribbon */
+.ribbon-container {
+  position: absolute;
+  top: 0;
+  margin-top: 0;
+  /* 사진/홀을 가리지 않도록 썸노치 부근으로 바짝 끌어올림 */
+  left: -15%;
+  /* PNG 여백을 찢고 모서리 끝까지 확장 */
+  width: 130%;
+  /* 비율을 대폭 늘려서 끝이 딱 맞물리도록 스케일업 */
+  z-index: 4;
+  pointer-events: none;
+}
+
+.ribbon-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+  /* 훨씬 더 리얼한 그림자감 추가 */
+}
+
+/* ── Animation State (.is-open) ── */
+.envelope-scene.is-open {
+  aspect-ratio: auto;
+}
+
+.envelope-scene.is-open .envelope-back {
+  transform: translateY(110vh);
+  /* 깊게 떨어짐 */
+  opacity: 0;
+  box-shadow: none;
+  /* Safari GPU 잔상(베이지색 그림자) 방지를 위해 열릴 때 강제로 그림자 제거 */
+  transition: transform 2.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease-in 0.1s;
+}
+
+.envelope-scene.is-open .envelope-front {
+  transform: translateY(110vh);
+  /* 깊게 떨어짐 */
+  opacity: 0;
+  filter: none;
+  /* Safari 혼합 모드 + 드롭섀도우 조합이 렌더링 찌꺼기를 남기지 않도록 강제 제거 */
+  transition: transform 2.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease-in 0.1s, filter 0.1s;
+}
+
+/* 리본 역시 봉투가 열릴 때 그림자를 즉시 제거해 잔상 방지 */
+.envelope-scene.is-open .ribbon-img {
+  filter: none;
+  transition: filter 0.1s;
+}
+
+/* SVG 내부의 노이즈 필터, 멀티플라이 속성도 함께 제거해 베이지색 GPU 찌꺼기 완벽 차단 */
+.envelope-scene.is-open .env-mask-svg rect[style*="mix-blend-mode"] {
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.envelope-scene.is-open .main-letter {
+  transform: translateY(0);
+  /* 기존 -30px 이 상단 이름을 화면 밖으로 잘라버리는 문제 원인이었으므로 0으로 픽스 */
+}
+
+.envelope-scene.is-open .letter-scroll-wrapper {
+  overflow: visible;
+  height: auto;
+}
+
+/* 스크롤 가이드 화살표 */
+.hero-bottom-text {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+  transition: opacity 0.4s ease;
+}
+
+.hero-bottom-text.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.view-details-txt {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: #333;
+  letter-spacing: 0.1em;
+}
+
+.view-details-arrow {
+  font-size: 14px;
+  color: #111;
+  animation: bounceUp 1.5s infinite;
+}
+
+@keyframes bounceUp {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* ── Letter Top (Sticking out portion) ── */
+.letter-top {
+  position: relative;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 4px 4px 0 0;
+  overflow: hidden;
+}
+
+.letter-header-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-top: 24px;
+  z-index: 5;
+  /* 봉투 열림 시 부드럽게 아래로 내려가기 위한 모션 (사진과 여백 좁히기) */
+  transition: transform 2.2s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
+}
+
+/* 봉투가 열리면 헤더(이름+달력)가 사진(아래) 쪽으로 부드럽게 30px 내려오며 중앙으로 집중됨 */
+.envelope-scene.is-open .letter-header-content {
+  transform: translateY(30px);
+}
+
+.letter-names {
+  font-family: 'Cormorant Garamond', var(--font-display), serif;
+  font-size: 19px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: #222;
+  margin-bottom: 24px;
+  /* 달력만 추가로 아래로 밀어줌 */
+}
+
+.letter-names .amp {
+  font-size: 14px;
+  font-weight: 300;
+  margin: 0 8px;
+  color: #666;
+}
+
+/* 1-Week Calendar */
+.letter-calendar {
+  margin: 0;
+}
+
+.calendar-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  /* 기존 12px에서 늘려서 더 넓게 퍼진 느낌 적용 */
+}
+
+.cal-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.cal-day-label {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  color: #777;
+  text-transform: capitalize;
+}
+
+.cal-date-num {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  color: #222;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.cal-date-num.is-wedding {
+  border: 1px solid #333;
+}
+
+.letter-photo-spacer {
+  /* 봉투가 아래로 약 2.59% 이동했으므로 사진 간격도 동일하게 밀어 포토 홀(Hole) 위치에 수치 맞춤 (기존 73.53% -> 76.11%) */
+  padding-top: 76.11%;
+}
+
+.letter-window-img {
+  width: 58.82%;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto 30px;
+  background: #f0f0f0;
+  border-radius: 2px;
+  overflow: hidden;
+  /* 봉투가 내려갈 때 사진이 부드럽게 위로 끌어올려지는 에어메이션 */
+  transition: transform 2.2s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
+}
+
+/* 열렸을 때 사진을 위로 당겨 달력과의 공백을 좁힘 */
+.envelope-scene.is-open .letter-window-img {
+  transform: translateY(-65px);
+}
+
+.letter-window-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.letter-date {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: #222;
+  letter-spacing: 0.05em;
+  margin-bottom: 40px;
+}
+
+/* ── ② 초대의 글 ────────────────────────────────────────── */
+.section-invitation {
+  background: var(--color-bg);
+}
+
+.section-invitation .section-inner {
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+}
+
+.invitation-parents {
+  font-size: var(--fs-sm);
+  color: var(--color-text-soft);
+  line-height: 2;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-md);
+}
+
+.divider-floral {
+  color: var(--color-primary-light);
+  font-size: var(--fs-lg);
+  margin: var(--space-sm) 0;
+  letter-spacing: 0.5em;
+}
+
+.invitation-message {
+  font-size: var(--fs-base);
+  line-height: 2;
+  color: var(--color-text-soft);
+  letter-spacing: 0.04em;
+}
+
+/* ── ③ 예식 안내 ────────────────────────────────────────── */
+.section-info {
+  background: var(--color-surface);
+}
+
+.info-card {
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+  text-align: left;
+}
+
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: 12px 0;
+}
+
+.info-row+.info-row {
+  border-top: 1px solid var(--color-divider);
+}
+
+.info-icon {
+  font-size: var(--fs-md);
+  flex-shrink: 0;
+}
+
+.info-main {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 4px;
+}
+
+.info-sub {
+  font-size: var(--fs-sm);
+  color: var(--color-text-soft);
+  line-height: 1.6;
+}
+
+.info-address {
+  color: var(--color-text-muted);
+  font-size: var(--fs-xs);
+  margin-top: 2px;
+}
+
+.countdown-wrap {
+  text-align: center;
+}
+
+.countdown-label {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.countdown-number {
+  font-family: var(--font-display);
+  font-size: var(--fs-3xl);
+  color: var(--color-primary);
+  letter-spacing: 0.05em;
+}
+
+.countdown-today {
+  font-size: var(--fs-xl);
+  color: var(--color-primary);
+}
+
+.countdown-past {
+  font-size: var(--fs-2xl);
+  color: var(--color-text-muted);
+}
+
+/* ── ⑤ 오시는 길 - 지도 버튼 ──────────────────────────── */
+.map-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: var(--space-md);
+}
+
+.map-btn {
+  flex: 1;
+  padding: 13px;
+  border-radius: 50px;
+  font-family: var(--font-serif);
+  font-size: var(--fs-sm);
+  text-align: center;
+  letter-spacing: 0.05em;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.map-btn-naver {
+  border: 1.5px solid var(--color-divider);
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+
+.map-btn-naver:hover,
+.map-btn-naver:active {
+  background: #03c75a;
+  border-color: #03c75a;
+  color: #fff;
+}
+
+.map-btn-kakao {
+  border: 1.5px solid var(--color-divider);
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+
+.map-btn-kakao:hover,
+.map-btn-kakao:active {
+  background: #f9d800;
+  border-color: #f9d800;
+  color: #3a1d1d;
+}
+
+/* ── RSVP 버튼 (연락처 섹션 하단) ──────────────────────── */
+.rsvp-open-btn {
+  display: block;
+  width: 100%;
+  margin-top: var(--space-md);
+  padding: 16px;
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: 50px;
+  font-family: var(--font-serif);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.1em;
+  transition: background var(--transition);
+}
+
+.rsvp-open-btn:hover {
+  background: #9e7a50;
+}
+
+/* ── 모달 공통 ──────────────────────────────────────────── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: rgba(0, 0, 0, 0.5);
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-sheet {
+  width: 100%;
+  max-width: 480px;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding-bottom: 40px;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-md) var(--space-sm);
+  border-bottom: 1px solid var(--color-divider);
+  position: sticky;
+  top: 0;
+  background: var(--color-surface);
+  z-index: 1;
+}
+
+.modal-title {
+  font-family: var(--font-serif);
+  font-size: var(--fs-md);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.modal-close {
+  font-size: var(--fs-base);
+  color: var(--color-text-muted);
+  padding: 4px 8px;
+  transition: color var(--transition);
+}
+
+.modal-close:hover {
+  color: var(--color-text);
+}
+
+.modal-body {
+  padding: var(--space-sm) var(--space-md);
+}
+
+/* ── RSVP 폼 필드 ────────────────────────────────────────── */
+.rsvp-field {
+  margin-bottom: var(--space-sm);
+}
+
+.rsvp-label {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--color-text);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.required {
+  color: var(--color-primary);
+}
+
+.rsvp-input {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1px solid var(--color-divider);
+  border-radius: 50px;
+  font-family: var(--font-serif);
+  font-size: var(--fs-sm);
+  color: var(--color-text);
+  background: var(--color-bg);
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.rsvp-input:focus {
+  border-color: var(--color-primary);
+}
+
+.toggle-group {
+  display: flex;
+  gap: 8px;
+}
+
+.toggle-btn {
+  flex: 1;
+  padding: 12px;
+  border: 1.5px solid var(--color-divider);
+  border-radius: 50px;
+  font-family: var(--font-serif);
+  font-size: var(--fs-sm);
+  color: var(--color-text-soft);
+  background: var(--color-bg);
+  transition: all var(--transition);
+}
+
+.toggle-btn.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+.rsvp-status {
+  font-size: var(--fs-xs);
+  text-align: center;
+  min-height: 18px;
+  margin-bottom: var(--space-xs);
+}
+
+.rsvp-status.error {
+  color: #c0392b;
+}
+
+.rsvp-status.info {
+  color: var(--color-text-soft);
+}
+
+.rsvp-status.success {
+  color: #27ae60;
+}
+
+.rsvp-submit-btn {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: 50px;
+  font-family: var(--font-serif);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.1em;
+  margin-top: var(--space-sm);
+  transition: background var(--transition);
+}
+
+.rsvp-submit-btn:hover {
+  background: #9e7a50;
+}
+
+.rsvp-submit-btn:disabled {
+  background: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+/* ── ④ 갤러리 (폴라로이드 그리드) ──────────────────────── */
+.section-gallery {
+  background: var(--color-bg);
+}
+
+#gallery-grid {
+  margin-top: var(--space-sm);
+}
+
+.polaroid-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 8px 4px;
+}
+
+.polaroid-card {
+  background: #fff;
+  padding: 6px 6px 18px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.13);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform;
+}
+
+.polaroid-card:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+
+.polaroid-card img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.gallery-empty {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  padding: var(--space-md) 0;
+}
+
+/* 하객 사진 그리드 */
+.gallery-grid.guest-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+}
+
+.gallery-item {
+  aspect-ratio: 1;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition);
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+/* ── ⑤ 오시는 길 ────────────────────────────────────────── */
+.section-map {
+  background: var(--color-surface);
+}
+
+.map-container {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: var(--space-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+.map-iframe {
+  width: 100%;
+  height: 260px;
+  border: none;
+  display: block;
+}
+
+.map-address {
+  font-size: var(--fs-sm);
+  color: var(--color-text-soft);
+  margin-bottom: var(--space-md);
+}
+
+.transport-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.transport-item {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: var(--fs-sm);
+  background: var(--color-bg);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+}
+
+.transport-icon {
+  font-size: var(--fs-md);
+  flex-shrink: 0;
+}
+
+.transport-label {
+  font-weight: 600;
+  color: var(--color-text);
+  min-width: 40px;
+  flex-shrink: 0;
+}
+
+.transport-detail {
+  color: var(--color-text-soft);
+  line-height: 1.5;
+}
+
+/* ── ⑥ 포토 공유 ────────────────────────────────────────── */
+.section-guest-photos {
+  background: var(--color-bg);
+}
+
+.guest-photo-message {
+  font-size: var(--fs-sm);
+  color: var(--color-text-soft);
+  line-height: 2;
+  margin-bottom: var(--space-md);
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-lg);
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.upload-input {
+  padding: 12px 16px;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-sm);
+  color: var(--color-text);
+  background: var(--color-surface);
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.upload-input:focus {
+  border-color: var(--color-primary);
+}
+
+.upload-file-label {
+  padding: 12px 16px;
+  border: 1px dashed var(--color-primary-light);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-sm);
+  color: var(--color-primary);
+  text-align: center;
+  cursor: pointer;
+  transition: background var(--transition);
+  background: transparent;
+}
+
+.upload-file-label:hover {
+  background: rgba(184, 149, 106, 0.06);
+}
+
+.upload-btn {
+  padding: 13px;
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-serif);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.1em;
+  transition: background var(--transition);
+}
+
+.upload-btn:hover {
+  background: #9e7a50;
+}
+
+.upload-btn:disabled {
+  background: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+.upload-status {
+  font-size: var(--fs-xs);
+  line-height: 1.5;
+  min-height: 18px;
+  text-align: center;
+}
+
+.upload-status.error {
+  color: #c0392b;
+}
+
+.upload-status.info {
+  color: var(--color-text-soft);
+}
+
+.upload-status.success {
+  color: #27ae60;
+}
+
+.guest-gallery-grid {
+  margin-top: var(--space-sm);
+}
+
+.guest-item {
+  position: relative;
+}
+
+.guest-item-name {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-size: 10px;
+  padding: 3px 6px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── ⑦ 마음 전하기 ──────────────────────────────────────── */
+.section-accounts {
+  background: var(--color-surface);
+}
+
+.accounts-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  letter-spacing: 0.08em;
+}
+
+/* 탭 바 */
+.account-tab-bar {
+  display: flex;
+  border-bottom: 1px solid var(--color-divider);
+  margin-bottom: var(--space-md);
+}
+
+.account-tab {
+  flex: 1;
+  padding: 12px 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  letter-spacing: 0.05em;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.account-tab.active {
+  color: var(--color-text);
+  border-bottom-color: var(--color-text);
+  font-weight: 600;
+}
+
+/* 계좌 행 */
+.account-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.account-row:last-child {
+  border-bottom: none;
+}
+
+.account-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 90px;
+}
+
+.account-role {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+}
+
+.account-holder-name {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.account-right {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 2px;
+}
+
+.account-bank {
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+}
+
+.account-number {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  letter-spacing: 0.03em;
+}
+
+.copy-btn {
+  padding: 7px 12px;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-xs);
+  color: var(--color-text-soft);
+  flex-shrink: 0;
+  transition: background var(--transition), color var(--transition);
+}
+
+.copy-btn:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+.copy-btn.copied {
+  background: #27ae60;
+  border-color: #27ae60;
+  color: #fff;
+}
+
+/* ── ⑧ 연락처 ───────────────────────────────────────────── */
+.section-contact {
+  background: var(--color-bg);
+}
+
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-surface);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+}
+
+.contact-label {
+  font-size: var(--fs-sm);
+  color: var(--color-text-soft);
+}
+
+.contact-call-btn {
+  padding: 8px 16px;
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.05em;
+  transition: background var(--transition);
+}
+
+.contact-call-btn:hover {
+  background: #9e7a50;
+}
+
+/* ── 푸터 ───────────────────────────────────────────────── */
+.footer {
+  padding: var(--space-lg) var(--space-md);
+  text-align: center;
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+  letter-spacing: 0.1em;
+  border-top: 1px solid var(--color-divider);
+}
+
+/* ── 라이트박스 ─────────────────────────────────────────── */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.88);
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-md);
+}
+
+.lightbox.active {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 폴라로이드 프레임 */
+.lightbox-img {
+  max-width: min(85vw, 400px);
+  max-height: 70vh;
+  object-fit: contain;
+  display: block;
+  background: #fff;
+  padding: 10px 10px 36px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  -webkit-user-drag: none;
+  user-select: none;
+  touch-action: none;
+}
+
+.lightbox-caption {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: var(--fs-sm);
+  margin-top: var(--space-md);
+  text-align: center;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: var(--fs-lg);
+  padding: 8px 12px;
+  line-height: 1;
+  z-index: 1;
+  transition: color var(--transition);
+}
+
+.lightbox-close:hover {
+  color: #fff;
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  font-size: 28px;
+  color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition);
+}
+
+.lightbox-nav:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.lightbox-prev {
+  left: 16px;
+}
+
+.lightbox-next {
+  right: 16px;
+}
+
+/* ── 데스크탑에서 핸드폰 형태 유지 ─────────────────────── */
+@media (min-width: 520px) {
+  body {
+    padding: 40px 0;
+    align-items: flex-start;
+  }
+
+  .phone-frame {
+    border-radius: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    min-height: auto;
+  }
+}

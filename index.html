@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title id="page-title">청첩장</title>
+
+  <!-- OG 메타태그 (카카오톡 링크 공유 시 미리보기) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" id="og-title" content="청첩장" />
+  <meta property="og:description" id="og-description" content="" />
+  <meta property="og:image" id="og-image" content="" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- 웹폰트 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap"
+    rel="stylesheet" />
+
+  <!-- 스타일 -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  
+  <!-- 이미지 Preload (로딩 최적화) -->
+  <link rel="preload" href="images/ribbon.png" as="image" />
+
+</head>
+
+<body>
+
+  <!-- 로딩 오버레이: 폰트·리소스 안정화 전까지 화면을 가림 -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-ring"></div>
+  </div>
+
+  <div class="phone-frame" id="phone-frame">
+
+    <!-- ① 커버 (Sleeve 봉투 애니메이션) -->
+    <section id="hero" class="section section-hero">
+      
+      <!-- Envelope Scene -->
+      <div class="envelope-scene" id="envelope-scene">
+        
+        <!-- Envelope Back -->
+        <div class="envelope-back" id="envelope-back"></div>
+
+        <!-- 튀어나온 편지지 & 전체 콘텐츠 스크롤 래퍼 -->
+        <div class="letter-scroll-wrapper" id="letter-scroll-wrapper">
+          <div class="main-letter" id="main-letter">
+            
+            <!-- 편지지 최상단 (이름, 달력, 사진, 날짜) -->
+            <div class="letter-top">
+              <!-- 절대 위치 지정으로 사진 정렬에 영향 주지 않음 -->
+              <div class="letter-header-content">
+                <div class="letter-names">
+                  <span id="letter-groom-name"></span> <span class="amp">&amp;</span> <span id="letter-bride-name"></span>
+                </div>
+                <!-- 1주 달력 렌더링 컨테이너 -->
+                <div class="letter-calendar" id="letter-calendar"></div>
+              </div>
+              
+              <!-- 사진 위치를 완벽하게 잡아주는 여백 -->
+              <div class="letter-photo-spacer"></div>
+              
+              <!-- 윈도우 홀에 정확히 맞는 이미지 -->
+              <div class="letter-window-img" id="letter-window-img"></div>
+              
+              <div class="letter-date" id="letter-date"></div>
+            </div>
+
+            <!-- ② 초대의 글 -->
+            <section id="invitation" class="section section-invitation fade-in">
+              <div class="section-inner">
+                <p class="invitation-parents" id="invitation-parents"></p>
+                <div class="divider-floral">✦</div>
+                <p class="invitation-message" id="invitation-message"></p>
+              </div>
+            </section>
+
+            <!-- ③ 예식 안내 -->
+            <section id="info" class="section section-info fade-in">
+              <div class="section-inner">
+                <h2 class="section-title">예식 안내</h2>
+                <div class="info-card">
+                  <div class="info-row">
+                    <span class="info-icon">📅</span>
+                    <div>
+                      <p class="info-main" id="info-date"></p>
+                      <p class="info-sub" id="info-time"></p>
+                    </div>
+                  </div>
+                  <div class="info-row">
+                    <span class="info-icon">📍</span>
+                    <div>
+                      <p class="info-main" id="info-venue"></p>
+                      <p class="info-sub" id="info-hall"></p>
+                      <p class="info-sub info-address" id="info-address"></p>
+                    </div>
+                  </div>
+                </div>
+                <!-- D-day 카운트다운 -->
+                <div class="countdown-wrap">
+                  <p class="countdown-label">결혼식까지</p>
+                  <div id="countdown" class="countdown"></div>
+                </div>
+              </div>
+            </section>
+
+            <!-- ④ 갤러리 -->
+            <section id="gallery" class="section section-gallery fade-in">
+              <div class="section-inner">
+                <h2 class="section-title">갤러리</h2>
+                <div id="gallery-grid" class="gallery-grid"></div>
+                <p id="gallery-empty" class="gallery-empty" style="display:none;">사진을 준비 중입니다.</p>
+              </div>
+            </section>
+
+            <!-- ⑤ 오시는 길 -->
+            <section id="map-section" class="section section-map fade-in">
+              <div class="section-inner">
+                <h2 class="section-title">오시는 길</h2>
+                <p class="map-address" id="map-address"></p>
+                <div class="map-buttons">
+                  <a id="btn-naver-map" class="map-btn map-btn-naver" href="#" target="_blank" rel="noopener">네이버지도</a>
+                  <a id="btn-kakao-map" class="map-btn map-btn-kakao" href="#" target="_blank" rel="noopener">카카오맵</a>
+                </div>
+                <div id="transport-list" class="transport-list"></div>
+              </div>
+            </section>
+
+            <!-- ⑥ 하객 사진 공유 -->
+            <section id="guest-photos" class="section section-guest-photos fade-in">
+              <div class="section-inner">
+                <h2 class="section-title">포토 공유</h2>
+                <p class="guest-photo-message" id="guest-photo-message"></p>
+                <div class="upload-form" id="upload-form">
+                  <input type="text" id="uploader-name" class="upload-input" placeholder="이름을 입력해 주세요" maxlength="20" />
+                  <label class="upload-file-label" for="upload-file">
+                    <span id="upload-file-text">사진 선택</span>
+                    <input type="file" id="upload-file" accept="image/*" multiple style="display:none;" />
+                  </label>
+                  <button id="upload-btn" class="upload-btn">올리기</button>
+                  <p id="upload-status" class="upload-status"></p>
+                </div>
+                <div id="guest-grid" class="gallery-grid guest-gallery-grid"></div>
+                <p id="guest-empty" class="gallery-empty">아직 올라온 사진이 없습니다.</p>
+              </div>
+            </section>
+
+            <!-- ⑦ 마음 전하기 (계좌번호) -->
+            <section id="accounts" class="section section-accounts fade-in">
+              <div class="section-inner">
+                <h2 class="section-title accounts-title">WEDDING GIFT.</h2>
+                <div id="accounts-list" class="accounts-list"></div>
+              </div>
+            </section>
+
+            <!-- ⑧ 연락처 + RSVP -->
+            <section id="contact" class="section section-contact fade-in">
+              <div class="section-inner">
+                <h2 class="section-title">연락처</h2>
+                <div id="contact-list" class="contact-list"></div>
+                <button id="rsvp-open-btn" class="rsvp-open-btn">✉ 참석 의사 전달하기</button>
+              </div>
+            </section>
+
+            <!-- 푸터 -->
+            <footer class="footer">
+              <p id="footer-names"></p>
+            </footer>
+
+          </div>
+        </div>
+
+        <!-- Envelope Front (SVG Mask) -->
+        <div class="envelope-front" id="envelope-front">
+          <svg class="env-mask-svg" viewBox="0 0 340 420" preserveAspectRatio="none">
+            <defs>
+              <mask id="hole-mask">
+                <rect width="100%" height="100%" fill="white" />
+                <circle cx="170" cy="0" r="30" fill="black" />
+                <rect x="70" y="150" width="200" height="200" fill="black" rx="2" />
+              </mask>
+              <!-- 텍스처 노이즈 -->
+              <filter id="noise">
+                <!-- numOctaves를 1로 줄여서 모바일 버벅임(Stutter) 최적화 -->
+                <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="1" stitchTiles="stitch"/>
+                <feColorMatrix type="matrix" values="1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.04 0"/>
+              </filter>
+            </defs>
+            <!-- 봉투 베이스 배경색 (미니멀 화이트 계열) -->
+            <rect width="100%" height="100%" fill="#ffffff" mask="url(#hole-mask)" />
+            <rect width="100%" height="100%" fill="transparent" style="filter:url(#noise); mix-blend-mode: multiply;" mask="url(#hole-mask)" />
+          </svg>
+          
+          <!-- Ribbon Overlay (블랙 리본) -->
+          <div class="ribbon-container">
+            <img src="images/ribbon.png" class="ribbon-img" alt="Ribbon">
+          </div>
+          
+          <!-- 짧은 길이를 해결하는 봉투 무한 연장 블록 -->
+          <div class="envelope-bottom-extension"></div>
+        </div>
+
+      </div>
+      
+    </section>
+
+  </div><!-- /phone-frame -->
+
+  <!-- RSVP 모달 -->
+  <div id="rsvp-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="참석 의사 전달">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h3 class="modal-title">참석 의사 전달하기</h3>
+        <button class="modal-close" id="rsvp-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="rsvp-field">
+          <label class="rsvp-label">성함 <span class="required">*</span></label>
+          <input type="text" id="rsvp-name" class="rsvp-input" placeholder="성함을 입력해주세요" maxlength="20" />
+        </div>
+        <div class="rsvp-field">
+          <label class="rsvp-label">연락처</label>
+          <input type="tel" id="rsvp-phone" class="rsvp-input" placeholder="010-0000-0000" maxlength="13" />
+        </div>
+        <div class="rsvp-field">
+          <label class="rsvp-label">구분</label>
+          <div class="toggle-group" id="rsvp-side">
+            <button class="toggle-btn active" data-value="신랑측">신랑측</button>
+            <button class="toggle-btn" data-value="신부측">신부측</button>
+          </div>
+        </div>
+        <div class="rsvp-field">
+          <label class="rsvp-label">참석 여부 <span class="required">*</span></label>
+          <div class="toggle-group" id="rsvp-attend">
+            <button class="toggle-btn" data-value="참석">참석</button>
+            <button class="toggle-btn" data-value="불참석">불참석</button>
+          </div>
+        </div>
+        <div class="rsvp-field" id="rsvp-headcount-wrap">
+          <label class="rsvp-label">참석 인원</label>
+          <input type="number" id="rsvp-headcount" class="rsvp-input" placeholder="본인 포함 총 참석인원" min="1" max="20" />
+        </div>
+        <div class="rsvp-field" id="rsvp-companion-wrap">
+          <label class="rsvp-label">동행인</label>
+          <input type="text" id="rsvp-companion" class="rsvp-input" placeholder="함께 오시는 분 성함" maxlength="30" />
+        </div>
+        <div class="rsvp-field">
+          <label class="rsvp-label">식사 여부</label>
+          <div class="toggle-group" id="rsvp-meal">
+            <button class="toggle-btn" data-value="예정">예정</button>
+            <button class="toggle-btn" data-value="안함">안함</button>
+            <button class="toggle-btn active" data-value="미정">미정</button>
+          </div>
+        </div>
+        <p id="rsvp-status" class="rsvp-status"></p>
+        <button id="rsvp-submit-btn" class="rsvp-submit-btn">✓ 참석 의사 전달하기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 라이트박스 (갤러리 전체화면) -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="사진 확대">
+    <button class="lightbox-close" id="lightbox-close" aria-label="닫기">✕</button>
+    <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="이전 사진">&#8249;</button>
+    <img id="lightbox-img" class="lightbox-img" src="" alt="" />
+    <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="다음 사진">&#8250;</button>
+    <p id="lightbox-caption" class="lightbox-caption"></p>
+  </div>
+
+  <!-- 스크립트 -->
+  <script src="content.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/countdown.js"></script>
+  <script src="js/gallery.js"></script>
+  <script src="js/map.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="js/guest-upload.js"></script>
+  <script src="js/rsvp.js"></script>
+</body>
+
+</html>
