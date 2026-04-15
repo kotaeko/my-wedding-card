@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "WebFetch(domain:blog.naver.com)",
-      "WebFetch(domain:subtle-kataifi-ef6839.netlify.app)",
-      "WebFetch(domain:www.instagram.com)"
-    ]
-  }
-}
