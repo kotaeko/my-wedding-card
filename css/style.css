@@ -537,6 +537,29 @@ body.loaded .phone-frame {
   line-height: 2;
   color: var(--color-text-soft);
   letter-spacing: 0.04em;
+  word-break: keep-all; /* 문장 단위 줄바꿈 유지 */
+}
+
+.lyrics-section {
+  font-family: 'Gowun Batang', serif;
+  margin-bottom: var(--space-md);
+  color: var(--color-text);
+  text-align: center;
+  font-style: italic;
+}
+
+.lyrics-line {
+  display: block;
+  line-height: 1.8;
+  margin-bottom: 4px;
+}
+
+.lyrics-author {
+  display: block;
+  font-size: 13px;
+  opacity: 0.8;
+  margin-top: 12px;
+  margin-bottom: var(--space-lg);
 }
 
 /* ── ③ 예식 안내 ────────────────────────────────────────── */

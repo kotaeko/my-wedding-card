@@ -48,7 +48,7 @@ const WEDDING_CONTENT = {
 
   // ── 초대 문구 ─────────────────────────────────────────────
   // \n 은 줄바꿈입니다
-  mainMessage: "그냥 매일 손 잡고 걸을 수 있는 여유로운 저녁이 있는 것\n지친 하루의 끝마다 돌아와 꼭 함께하는 것\n잠시 마주앉아 서로 이야길 들어줄 수 있는 것\n네가 늘 있는 것\n<strong>- 슌 '내 꿈은 당신과 나태하게 사는 것' -</strong>\n\n우리는 앞으로의 모든 날도 이렇게 걸어가려 합니다.\n내 꿈은 당신과 나태하게 사는 것 그 꿈을 함께 살아가겠습니다.",
+  mainMessage: `<div class="lyrics-section"><span class="lyrics-line">그냥 매일 손 잡고 걸을 수 있는 여유로운 저녁이 있는 것</span><span class="lyrics-line">지친 하루의 끝마다 돌아와 꼭 함께하는 것</span><span class="lyrics-line">잠시 마주앉아 서로 이야길 들어줄 수 있는 것</span><span class="lyrics-line">네가 늘 있는 것</span><span class="lyrics-author">- 슌 '내 꿈은 당신과 나태하게 사는 것' -</span></div>우리는 앞으로의 모든 날도 이렇게 걸어가려 합니다.\n내 꿈은 당신과 나태하게 사는 것 그 꿈을 함께 살아가겠습니다.`,
 
 
   // ── 표지(Hero) 사진 ───────────────────────────────────────
