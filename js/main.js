@@ -18,16 +18,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── 봉투 편지지 상단 (Letter Top) 세팅 ──────────────────────────────
   const groomNameEl = document.getElementById('letter-groom-name');
-  if (groomNameEl) groomNameEl.textContent = C.groomNameEng || C.groomName;
-  
+  if (groomNameEl) groomNameEl.textContent = C.groomName;
+
   const brideNameEl = document.getElementById('letter-bride-name');
-  if (brideNameEl) brideNameEl.textContent = C.brideNameEng || C.brideName;
+  if (brideNameEl) brideNameEl.textContent = C.brideName;
 
   // 창에 보이는 이미지 설정
   const windowImgCont = document.getElementById('letter-window-img');
-  if (windowImgCont && C.couplePhotos && C.couplePhotos.length > 0) {
-    const firstPhoto = C.couplePhotos[0];
-    const imgUrl = (firstPhoto.includes('/') || firstPhoto.includes('.')) ? firstPhoto : `https://drive.google.com/uc?export=view&id=${firstPhoto}`;
+  if (windowImgCont && C.heroPhoto) {
+    const imgUrl = (C.heroPhoto.includes('/') || C.heroPhoto.includes('.')) ? C.heroPhoto : `https://lh3.googleusercontent.com/d/${C.heroPhoto}`;
     windowImgCont.innerHTML = `<img src="${imgUrl}" alt="Couple">`;
   }
 
@@ -79,12 +78,65 @@ document.addEventListener('DOMContentLoaded', () => {
   setMultiline('invitation-parents', parents);
   setMultiline('invitation-message', C.mainMessage);
 
+  // ── 월간 달력 (예식 안내 섹션) ──────────────────────────
+  const monthlyCal = document.getElementById('monthly-calendar');
+  if (monthlyCal && C.weddingDate) {
+    const wDate = new Date(C.weddingDate);
+    if (!isNaN(wDate.getTime())) {
+      const year = wDate.getFullYear();
+      const month = wDate.getMonth();
+      const wDay = wDate.getDate();
+
+      const monthNames = ['January','February','March','April','May','June',
+                          'July','August','September','October','November','December'];
+      const monthNamesKo = ['1월','2월','3월','4월','5월','6월',
+                            '7월','8월','9월','10월','11월','12월'];
+
+      // 해당 월의 1일 요일(0=일)과 마지막 날
+      const firstDay = new Date(year, month, 1).getDay();
+      const lastDate = new Date(year, month + 1, 0).getDate();
+      // 월요일 시작 오프셋: 일(0)→6, 월(1)→0, ... 토(6)→5
+      const firstDayOffset = (firstDay + 6) % 7;
+
+      let html = `
+        <div class="mcal-header">
+          <span class="mcal-year">${year}</span>
+          <span class="mcal-month">${monthNamesKo[month]}</span>
+        </div>
+        <div class="mcal-grid">
+          <div class="mcal-dow">월</div>
+          <div class="mcal-dow">화</div>
+          <div class="mcal-dow">수</div>
+          <div class="mcal-dow">목</div>
+          <div class="mcal-dow">금</div>
+          <div class="mcal-dow sat">토</div>
+          <div class="mcal-dow sun">일</div>`;
+
+      // 1일 전 빈 칸
+      for (let i = 0; i < firstDayOffset; i++) {
+        html += `<div class="mcal-cell empty"></div>`;
+      }
+      // 날짜 (0=월, 5=토, 6=일)
+      for (let d = 1; d <= lastDate; d++) {
+        const dow = (firstDayOffset + d - 1) % 7;
+        let cls = 'mcal-cell';
+        if (dow === 6) cls += ' sun';
+        if (dow === 5) cls += ' sat';
+        if (d === wDay) cls += ' wedding-day';
+        html += `<div class="${cls}">${d}</div>`;
+      }
+
+      html += `</div>
+        `;
+      monthlyCal.innerHTML = html;
+    }
+  }
+
   // ── 예식 안내 ────────────────────────────────────────────
-  document.getElementById('info-date').textContent = C.weddingDayDisplay;
-  document.getElementById('info-time').textContent = C.weddingTime;
-  document.getElementById('info-venue').textContent = C.venueName;
-  document.getElementById('info-hall').textContent = C.venueHall;
-  document.getElementById('info-address').textContent = C.venueAddress;
+  const datetimeEl = document.getElementById('info-datetime');
+  if (datetimeEl) datetimeEl.textContent = `${C.weddingDayDisplay}  ${C.weddingTime}`;
+  const placeEl = document.getElementById('info-place');
+  if (placeEl) placeEl.textContent = `${C.venueName}  ${C.venueHall}`;
 
   // ── 오시는 길 ────────────────────────────────────────────
   document.getElementById('map-address').textContent = C.venueAddress;
@@ -99,6 +151,71 @@ document.addEventListener('DOMContentLoaded', () => {
       <span class="transport-detail">${item.detail}</span>`;
     transportList.appendChild(div);
   });
+
+  // ── 연애 타임라인 ─────────────────────────────────────────
+  const timelineSubtitleEl = document.getElementById('timeline-subtitle');
+  if (timelineSubtitleEl && C.timelineSubtitle) {
+    timelineSubtitleEl.innerHTML = C.timelineSubtitle.replace(/\n/g, '<br>');
+  }
+
+  const timelineList = document.getElementById('timeline-list');
+  if (timelineList && Array.isArray(C.timeline)) {
+    let photoSide = 'left';
+
+    C.timeline.forEach(item => {
+      // 마일스톤 항목
+      if (item.type === 'milestone') {
+        const el = document.createElement('div');
+        el.className = 'tl-milestone';
+        el.innerHTML = `
+          <div class="tl-milestone-badge">${item.badge || item.date || ''}</div>
+          <div class="tl-milestone-body">
+            <div class="tl-milestone-title">${item.icon ? item.icon + ' ' : ''}${item.title}</div>
+            <div class="tl-milestone-desc">${item.description.replace(/\n/g, '<br>')}</div>
+          </div>`;
+        timelineList.appendChild(el);
+        return; // 좌우 교차에 영향 없음
+      }
+
+      // 날짜 배지
+      const badge = document.createElement('div');
+      badge.className = 'tl-date-badge';
+      badge.innerHTML = `<span class="tl-date-badge-inner">${item.date}</span>`;
+      timelineList.appendChild(badge);
+
+      // 사진 HTML
+      let photoContent = '';
+      if (item.photo) {
+        const photoUrl = (item.photo.includes('/') || item.photo.includes('.'))
+          ? item.photo
+          : `https://lh3.googleusercontent.com/d/${item.photo}`;
+        photoContent = `<img src="${photoUrl}" alt="${item.title}" class="tl-img" loading="lazy">`;
+      } else {
+        photoContent = `<div class="tl-img-placeholder">📷</div>`;
+      }
+
+      const side = photoSide;
+      const div = document.createElement('div');
+      div.className = `tl-row tl-photo-${side}`;
+
+      const photoCol = `<div class="tl-photo-col">${photoContent}</div>`;
+      const lineCol  = `<div class="tl-line-col"><div class="tl-dot"></div></div>`;
+      const textCol  = `<div class="tl-text-col">
+        <div class="tl-title-row">
+          ${item.icon ? `<span class="tl-icon">${item.icon}</span>` : ''}
+          <span class="tl-title">${item.title}</span>
+        </div>
+        <p class="tl-desc">${item.description.replace(/\n/g, '<br>')}</p>
+      </div>`;
+
+      div.innerHTML = side === 'left'
+        ? photoCol + lineCol + textCol
+        : textCol + lineCol + photoCol;
+
+      timelineList.appendChild(div);
+      photoSide = photoSide === 'left' ? 'right' : 'left';
+    });
+  }
 
   // ── 하객 사진 안내 문구 ───────────────────────────────────
   setMultiline('guest-photo-message', C.guestPhotoMessage);
@@ -361,6 +478,78 @@ function initFadeIn() {
 
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 }
+
+// ── BGM 컨트롤 ──────────────────────────────────────────────
+(function initBGM() {
+  const audio = document.getElementById('bgm');
+  const btn   = document.getElementById('bgm-btn');
+  const iconOn  = btn.querySelector('.bgm-icon-on');
+  const iconOff = btn.querySelector('.bgm-icon-off');
+  if (!audio || !btn) return;
+
+  let userPaused = false; // 사용자가 직접 끈 경우
+
+  function setPlaying(playing) {
+    if (playing) {
+      iconOn.style.display  = '';
+      iconOff.style.display = 'none';
+      btn.classList.add('is-playing');
+      btn.setAttribute('aria-label', '음악 끄기');
+    } else {
+      iconOn.style.display  = 'none';
+      iconOff.style.display = '';
+      btn.classList.remove('is-playing');
+      btn.setAttribute('aria-label', '음악 켜기');
+    }
+  }
+
+  // 초기 상태: 재생 중(자동재생 시도 전이므로 on 아이콘 표시)
+  setPlaying(true);
+
+  // 자동 재생 시도 (로딩 완료 후)
+  function tryAutoplay() {
+    audio.volume = 0.6;
+    audio.play().then(() => {
+      setPlaying(true);
+    }).catch(() => {
+      // 브라우저가 자동재생을 차단 → 첫 터치/클릭 시 재생
+      setPlaying(false);
+      const playOnInteraction = () => {
+        if (!userPaused) {
+          audio.play().then(() => setPlaying(true)).catch(() => {});
+        }
+        document.removeEventListener('touchstart', playOnInteraction);
+        document.removeEventListener('click', playOnInteraction);
+      };
+      document.addEventListener('touchstart', playOnInteraction, { once: true });
+      document.addEventListener('click', playOnInteraction, { once: true });
+    });
+  }
+
+  // 로딩 오버레이 제거 시점(body.loaded)에 맞춰 재생
+  const observer = new MutationObserver(() => {
+    if (document.body.classList.contains('loaded')) {
+      observer.disconnect();
+      setTimeout(tryAutoplay, 800); // 로딩 페이드아웃(0.9s)과 맞춤
+    }
+  });
+  observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+  // 버튼 토글
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation(); // 봉투 open 이벤트 전파 방지
+    if (audio.paused) {
+      audio.play().then(() => {
+        userPaused = false;
+        setPlaying(true);
+      }).catch(() => {});
+    } else {
+      audio.pause();
+      userPaused = true;
+      setPlaying(false);
+    }
+  });
+})();
 
 // Ctrl+휠 확대 방지
 document.addEventListener('wheel', e => {

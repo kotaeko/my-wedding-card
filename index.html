@@ -26,7 +26,7 @@
   <link rel="stylesheet" href="css/animations.css" />
   
   <!-- 이미지 Preload (로딩 최적화) -->
-  <link rel="preload" href="images/ribbon.png" as="image" />
+  <link rel="preload" href="images/ribbon.webp" as="image" type="image/webp" />
 
 </head>
 
@@ -37,7 +37,26 @@
     <div class="loading-ring"></div>
   </div>
 
+  <!-- BGM -->
+  <audio id="bgm" src="images/슌(shoon) - 내 꿈은 당신과 나태하게 사는 것 - 슌 SHOON.mp3" loop preload="auto"></audio>
+
   <div class="phone-frame" id="phone-frame">
+
+    <!-- BGM 컨트롤 버튼 -->
+    <div class="bgm-control">
+      <button id="bgm-btn" class="bgm-btn" aria-label="음악 켜기/끄기">
+        <svg class="bgm-icon bgm-icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+        </svg>
+        <svg class="bgm-icon bgm-icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <line x1="23" y1="9" x2="17" y2="15"/>
+          <line x1="17" y1="9" x2="23" y2="15"/>
+        </svg>
+      </button>
+    </div>
 
     <!-- ① 커버 (Sleeve 봉투 애니메이션) -->
     <section id="hero" class="section section-hero">
@@ -57,7 +76,7 @@
               <!-- 절대 위치 지정으로 사진 정렬에 영향 주지 않음 -->
               <div class="letter-header-content">
                 <div class="letter-names">
-                  <span id="letter-groom-name"></span> <span class="amp">&amp;</span> <span id="letter-bride-name"></span>
+                  <span id="letter-groom-name"></span><span class="amp">그리고</span><span id="letter-bride-name"></span>
                 </div>
                 <!-- 1주 달력 렌더링 컨테이너 -->
                 <div class="letter-calendar" id="letter-calendar"></div>
@@ -81,26 +100,17 @@
               </div>
             </section>
 
-            <!-- ③ 예식 안내 -->
+            <!-- ③ 예식 안내 (장소 / 달력 / D-day) -->
             <section id="info" class="section section-info fade-in">
               <div class="section-inner">
                 <h2 class="section-title">예식 안내</h2>
-                <div class="info-card">
-                  <div class="info-row">
-                    <span class="info-icon">📅</span>
-                    <div>
-                      <p class="info-main" id="info-date"></p>
-                      <p class="info-sub" id="info-time"></p>
-                    </div>
-                  </div>
-                  <div class="info-row">
-                    <span class="info-icon">📍</span>
-                    <div>
-                      <p class="info-main" id="info-venue"></p>
-                      <p class="info-sub" id="info-hall"></p>
-                      <p class="info-sub info-address" id="info-address"></p>
-                    </div>
-                  </div>
+                <!-- 월간 달력 -->
+                <div class="info-calendar-wrap">
+                  <div id="monthly-calendar" class="monthly-calendar"></div>
+                </div>
+                <div class="info-venue-block">
+                  <p class="info-venue-datetime" id="info-datetime"></p>
+                  <p class="info-venue-place" id="info-place"></p>
                 </div>
                 <!-- D-day 카운트다운 -->
                 <div class="countdown-wrap">
@@ -110,7 +120,16 @@
               </div>
             </section>
 
-            <!-- ④ 갤러리 -->
+            <!-- ⑤ 연애 타임라인 -->
+            <section id="timeline-section" class="section section-timeline fade-in">
+              <div class="section-inner">
+                <h2 class="section-title">OUR TIMELINE</h2>
+                <p class="timeline-subtitle" id="timeline-subtitle"></p>
+                <div id="timeline-list" class="timeline-list"></div>
+              </div>
+            </section>
+
+            <!-- ⑥ 갤러리 -->
             <section id="gallery" class="section section-gallery fade-in">
               <div class="section-inner">
                 <h2 class="section-title">갤러리</h2>
@@ -119,7 +138,7 @@
               </div>
             </section>
 
-            <!-- ⑤ 오시는 길 -->
+            <!-- ⑦ 오시는 길 -->
             <section id="map-section" class="section section-map fade-in">
               <div class="section-inner">
                 <h2 class="section-title">오시는 길</h2>
@@ -132,7 +151,15 @@
               </div>
             </section>
 
-            <!-- ⑥ 하객 사진 공유 -->
+            <!-- ⑧ 마음 전하기 (계좌번호) -->
+            <section id="accounts" class="section section-accounts fade-in">
+              <div class="section-inner">
+                <h2 class="section-title accounts-title">WEDDING GIFT.</h2>
+                <div id="accounts-list" class="accounts-list"></div>
+              </div>
+            </section>
+
+            <!-- ⑨ 하객 사진 공유 -->
             <section id="guest-photos" class="section section-guest-photos fade-in">
               <div class="section-inner">
                 <h2 class="section-title">포토 공유</h2>
@@ -151,15 +178,7 @@
               </div>
             </section>
 
-            <!-- ⑦ 마음 전하기 (계좌번호) -->
-            <section id="accounts" class="section section-accounts fade-in">
-              <div class="section-inner">
-                <h2 class="section-title accounts-title">WEDDING GIFT.</h2>
-                <div id="accounts-list" class="accounts-list"></div>
-              </div>
-            </section>
-
-            <!-- ⑧ 연락처 + RSVP -->
+            <!-- ⑩ 연락처 + RSVP -->
             <section id="contact" class="section section-contact fade-in">
               <div class="section-inner">
                 <h2 class="section-title">연락처</h2>
@@ -199,7 +218,7 @@
           
           <!-- Ribbon Overlay (블랙 리본) -->
           <div class="ribbon-container">
-            <img src="images/ribbon.png" class="ribbon-img" alt="Ribbon">
+            <img src="images/ribbon.webp" class="ribbon-img" alt="Ribbon">
           </div>
           
           <!-- 짧은 길이를 해결하는 봉투 무한 연장 블록 -->
