@@ -35,10 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (calendarCont && C.weddingDate) {
     const wDate = new Date(C.weddingDate);
     if (!isNaN(wDate.getTime())) {
-      const dayOfWeek = wDate.getDay(); 
+      const dayOfWeek = wDate.getDay();
       const jsDayToIso = dayOfWeek === 0 ? 7 : dayOfWeek;
       const mondayOffset = jsDayToIso - 1;
-      
+
       const mondayDate = new Date(wDate);
       mondayDate.setDate(wDate.getDate() - mondayOffset);
 
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const curDate = new Date(mondayDate);
         curDate.setDate(mondayDate.getDate() + i);
         const isWeddingDay = (curDate.getTime() === wDate.getTime());
-        
+
         const colDiv = document.createElement('div');
         colDiv.className = 'cal-col';
         colDiv.innerHTML = `
@@ -87,10 +87,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const month = wDate.getMonth();
       const wDay = wDate.getDate();
 
-      const monthNames = ['January','February','March','April','May','June',
-                          'July','August','September','October','November','December'];
-      const monthNamesKo = ['1월','2월','3월','4월','5월','6월',
-                            '7월','8월','9월','10월','11월','12월'];
+      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'];
+      const monthNamesKo = ['1월', '2월', '3월', '4월', '5월', '6월',
+        '7월', '8월', '9월', '10월', '11월', '12월'];
 
       // 해당 월의 1일 요일(0=일)과 마지막 날
       const firstDay = new Date(year, month, 1).getDay();
@@ -199,8 +199,8 @@ document.addEventListener('DOMContentLoaded', () => {
       div.className = `tl-row tl-photo-${side}`;
 
       const photoCol = `<div class="tl-photo-col">${photoContent}</div>`;
-      const lineCol  = `<div class="tl-line-col"><div class="tl-dot"></div></div>`;
-      const textCol  = `<div class="tl-text-col">
+      const lineCol = `<div class="tl-line-col"><div class="tl-dot"></div></div>`;
+      const textCol = `<div class="tl-text-col">
         <div class="tl-title-row">
           ${item.icon ? `<span class="tl-icon">${item.icon}</span>` : ''}
           <span class="tl-title">${item.title}</span>
@@ -311,26 +311,26 @@ document.addEventListener('DOMContentLoaded', () => {
   if (envelopeScene) {
     let isOpen = false;
     let isAnimating = false;
-    
+
     // 처음 로딩 시 스크롤 잠금
     if (window.scrollY === 0) {
       document.body.style.overflow = 'hidden';
     }
-    
+
     const openEnvelope = () => {
       if (isOpen || isAnimating) return;
       isOpen = true;
       isAnimating = true;
       envelopeScene.classList.add('is-open');
-      
+
       const bottomText = document.getElementById('hero-bottom-text');
       if (bottomText) bottomText.classList.add('fade-out');
-      
+
       // 봉투가 내려가기 시작하면 즉시(600ms 후) 본문 스크롤을 허용하여 자연스럽게 이어지도록 함
       setTimeout(() => {
-        document.body.style.overflow = ''; 
+        document.body.style.overflow = '';
       }, 600);
-      
+
       // 전체 트랜지션(2.2s) 완료 후 DOM에서 제거 — Safari GPU 캐시 버그 차단
       // 800ms(애니메이션 도중)에 하면 리플로우가 발생하므로 완료 후로 이동
       setTimeout(() => {
@@ -364,9 +364,9 @@ document.addEventListener('DOMContentLoaded', () => {
         envBack.style.display = '';
         envBack.offsetHeight;
       }
-      
+
       envelopeScene.classList.remove('is-open');
-      
+
       const bottomText = document.getElementById('hero-bottom-text');
       if (bottomText) bottomText.classList.remove('fade-out');
 
@@ -384,7 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('touchstart', (e) => {
       startY = e.touches[0].clientY;
     }, { passive: true });
-    
+
     window.addEventListener('touchmove', (e) => {
       // 1. 봉투가 열리기 전(첫 화면)에는 브라우저 네이티브 바운스(전체 화면 스크롤) 방지
       if (!isOpen) {
@@ -399,11 +399,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (isAnimating) return; // 애니메이션 도중에는 터치 무시
-      
+
       let currentY = e.touches[0].clientY;
       if (!isOpen) {
         // 위로 올리든 아래로 내리든(봉투 내리기) 20px 이상 드래그하면 봉투 애니메이션 실행
-        if (Math.abs(startY - currentY) > 20) { 
+        if (Math.abs(startY - currentY) > 20) {
           openEnvelope();
         }
       } else {
@@ -482,8 +482,8 @@ function initFadeIn() {
 // ── BGM 컨트롤 ──────────────────────────────────────────────
 (function initBGM() {
   const audio = document.getElementById('bgm');
-  const btn   = document.getElementById('bgm-btn');
-  const iconOn  = btn.querySelector('.bgm-icon-on');
+  const btn = document.getElementById('bgm-btn');
+  const iconOn = btn.querySelector('.bgm-icon-on');
   const iconOff = btn.querySelector('.bgm-icon-off');
   if (!audio || !btn) return;
 
@@ -491,12 +491,12 @@ function initFadeIn() {
 
   function setPlaying(playing) {
     if (playing) {
-      iconOn.style.display  = '';
+      iconOn.style.display = '';
       iconOff.style.display = 'none';
       btn.classList.add('is-playing');
       btn.setAttribute('aria-label', '음악 끄기');
     } else {
-      iconOn.style.display  = 'none';
+      iconOn.style.display = 'none';
       iconOff.style.display = '';
       btn.classList.remove('is-playing');
       btn.setAttribute('aria-label', '음악 켜기');
@@ -508,7 +508,7 @@ function initFadeIn() {
 
   // 자동 재생 시도 (로딩 완료 후)
   function tryAutoplay() {
-    audio.volume = 0.6;
+    audio.volume = 0.4;
     audio.play().then(() => {
       setPlaying(true);
     }).catch(() => {
@@ -516,7 +516,7 @@ function initFadeIn() {
       setPlaying(false);
       const playOnInteraction = () => {
         if (!userPaused) {
-          audio.play().then(() => setPlaying(true)).catch(() => {});
+          audio.play().then(() => setPlaying(true)).catch(() => { });
         }
         document.removeEventListener('touchstart', playOnInteraction);
         document.removeEventListener('click', playOnInteraction);
@@ -542,7 +542,7 @@ function initFadeIn() {
       audio.play().then(() => {
         userPaused = false;
         setPlaying(true);
-      }).catch(() => {});
+      }).catch(() => { });
     } else {
       audio.pause();
       userPaused = true;
