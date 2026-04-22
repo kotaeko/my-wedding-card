@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const C = WEDDING_CONTENT;
 
   // ── 페이지 제목 + OG 태그 ────────────────────────────────
-  const pageTitle = `${C.groomName} ♥ ${C.brideName} 결혼합니다`;
+  const pageTitle = C.ogTitle || `${C.groomName} ♥ ${C.brideName} 결혼합니다`;
   document.getElementById('page-title').textContent = pageTitle;
   document.getElementById('og-title').setAttribute('content', pageTitle);
 
