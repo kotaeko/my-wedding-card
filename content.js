@@ -152,13 +152,6 @@ const WEDDING_CONTENT = {
     },
   ],
 
-  // ── 카카오톡 공유 (JS SDK 피드 템플릿용) ──
-  // 카카오 개발자 센터(https://developers.kakao.com)에서 발급받은 JavaScript 키를 입력하세요.
-  kakaoJsKey: "ecaca2d7e19a4bfd2074bca8a7e64edc",
-
-  // 카카오톡 공유 시 보여질 세로형 이미지 (2:3 비율 권장) URL을 입력하세요.
-  kakaoShareImage: "https://my-wedding-card.pages.dev/images/We%E2%80%99re%20getting%20married!.webp",
-
   // ── OG 이미지 (카카오톡으로 링크 공유 시 미리보기 이미지) ──
   // 1. Cloudinary에 1200×630 사이즈 이미지를 업로드하세요
   //    (캔바/피그마로 커플 사진 + 날짜 넣은 이미지를 만들면 좋아요)
