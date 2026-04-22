@@ -306,6 +306,47 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('footer-names').textContent =
     `${C.groomName} ♥ ${C.brideName} · ${C.weddingDayDisplay}`;
 
+  // ── 카카오톡 공유 기능 초기화 ────────────────────────────
+  if (typeof Kakao !== 'undefined' && C.kakaoJsKey && C.kakaoJsKey !== 'YOUR_JAVASCRIPT_KEY') {
+    if (!Kakao.isInitialized()) {
+      Kakao.init(C.kakaoJsKey);
+    }
+  }
+
+  const kakaoShareBtn = document.getElementById('kakao-share-btn');
+  if (kakaoShareBtn) {
+    kakaoShareBtn.addEventListener('click', () => {
+      if (typeof Kakao === 'undefined' || !Kakao.isInitialized()) {
+        alert('카카오톡 공유가 설정되지 않았습니다.\ncontent.js 파일에 JavaScript 키를 확인해주세요.');
+        return;
+      }
+      
+      Kakao.Share.sendDefault({
+        objectType: 'feed',
+        content: {
+          title: '태혁 ❤️ 서아의 결혼식에 초대합니다',
+          description: '2026년 7월 5일 일요일 낮 1시 20분',
+          imageUrl: C.kakaoShareImage || C.ogImageUrl || '',
+          link: {
+            mobileWebUrl: window.location.href,
+            webUrl: window.location.href,
+          },
+          imageWidth: 200,
+          imageHeight: 300,
+        },
+        buttons: [
+          {
+            title: '모바일 청첩장 바로가기',
+            link: {
+              mobileWebUrl: window.location.href,
+              webUrl: window.location.href,
+            },
+          },
+        ],
+      });
+    });
+  }
+
   // ── 봉투 애니메이션 트리거 ───────────────────────────────
   const envelopeScene = document.getElementById('envelope-scene');
   if (envelopeScene) {

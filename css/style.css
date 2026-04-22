@@ -706,6 +706,33 @@ body.loaded .phone-frame {
   background: #9e7a50;
 }
 
+/* ── 카카오톡 공유 버튼 ──────────────────────────────────────── */
+.kakao-share-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: var(--space-md);
+  padding: 16px;
+  background: #FEE500;
+  color: rgba(0, 0, 0, 0.85);
+  border-radius: 50px;
+  font-family: var(--font-serif);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  transition: background var(--transition), transform 0.1s ease;
+  gap: 8px;
+}
+
+.kakao-share-btn:hover {
+  background: #EED400;
+}
+
+.kakao-share-btn:active {
+  transform: scale(0.98);
+}
+
 /* ── 모달 공통 ──────────────────────────────────────────── */
 .modal-overlay {
   display: none;
