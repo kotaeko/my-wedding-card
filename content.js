@@ -156,7 +156,7 @@ const WEDDING_CONTENT = {
   // 1. Cloudinary에 1200×630 사이즈 이미지를 업로드하세요
   //    (캔바/피그마로 커플 사진 + 날짜 넣은 이미지를 만들면 좋아요)
   // 2. Cloudinary에서 해당 이미지의 URL을 복사해 붙여넣으세요
-  ogImageUrl: "images/We’re getting married!.webp", // ❗주의: 카카오톡은 '절대 주소(https://...)'만 인식하는 경우가 많아 배포 시에는 웹 주소로 변경을 권장합니다.
+  ogImageUrl: "https://my-wedding-card.pages.dev/images/We%E2%80%99re%20getting%20married!.webp", // 완벽한 카카오톡 공유를 위해 절대 주소로 설정했습니다.
   ogTitle: "고태혁 ♥ 김서아 결혼합니다 💍",              // 공유 제목 (비워두면 "신랑 ♥ 신부 결혼합니다" 로 자동 설정됩니다)
   ogDescription: "2026년 7월 5일 일요일 오후 1시 20분 | 까사그랑데센트로",
 
