@@ -38,6 +38,8 @@ const WEDDING_CONTENT = {
   venueAddress: "서울 광진구 능동로 87 건대입구역자이엘라 6층",
   venueMapUrl: "https://kko.to/X1Sqw0bkv3",
   naverMapUrl: "https://naver.me/GhbuXbYP",
+  venueLat: 37.5401399,
+  venueLng: 127.0718619,
 
   // ── 교통 안내 (없으면 빈칸 "") ────────────────────────────
   transportInfo: [

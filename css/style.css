@@ -643,6 +643,17 @@ body.loaded .phone-frame {
   color: var(--color-text-muted);
 }
 
+/* ── 오시는 길 - 네이버 지도 컨테이너 ──────────────────────────── */
+.naver-map-container {
+  width: 100%;
+  height: 250px;
+  background-color: #f0f0f0;
+  border-radius: var(--radius-md, 8px);
+  margin-bottom: var(--space-md);
+  overflow: hidden;
+  z-index: 1;
+}
+
 /* ── ⑤ 오시는 길 - 지도 버튼 ──────────────────────────── */
 .map-buttons {
   display: flex;
