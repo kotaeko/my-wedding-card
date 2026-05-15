@@ -288,6 +288,10 @@ body.loaded .phone-frame {
   .envelope-front {
     margin-top: 38%;
   }
+  /* 봉투가 6% 내려간 만큼 사진도 아래로 */
+  .letter-photo-spacer {
+    padding-top: 82.11%;
+  }
 }
 
 @media (max-width: 390px) {
@@ -297,6 +301,10 @@ body.loaded .phone-frame {
   .envelope-back,
   .envelope-front {
     margin-top: 42%;
+  }
+  /* 봉투가 10% 내려간 만큼 사진도 아래로 */
+  .letter-photo-spacer {
+    padding-top: 86.11%;
   }
 }
 
