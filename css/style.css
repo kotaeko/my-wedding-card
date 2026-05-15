@@ -279,6 +279,19 @@ body.loaded .phone-frame {
   pointer-events: none;
 }
 
+/* 모바일에서 봉투 비율 변화로 리본이 달력 숫자를 가리는 현상 보정 */
+@media (max-width: 480px) {
+  .ribbon-container {
+    top: -44%;
+  }
+}
+
+@media (max-width: 390px) {
+  .ribbon-container {
+    top: -40%;
+  }
+}
+
 .ribbon-img {
   width: 100%;
   height: auto;

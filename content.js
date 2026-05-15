@@ -34,8 +34,8 @@ const WEDDING_CONTENT = {
 
   // ── 예식장 ───────────────────────────────────────────────
   venueName: "까사그랑데센트로",
-  venueHall: "Eterno Hall (에떼르노홀)",
-  venueAddress: "서울 광진구 능동로 87 건대입구역자이엘라 6층",
+  venueHall: "6층 에떼르노홀",
+  venueAddress: "서울 광진구 능동로 87 까사그랑데 센트로",
   venueMapUrl: "https://kko.to/X1Sqw0bkv3",
   naverMapUrl: "https://naver.me/GhbuXbYP",
   venueLat: 37.5401399,
