@@ -80,7 +80,9 @@ button {
 }
 
 @keyframes loading-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ── BGM 컨트롤 ─────────────────────────────────────────── */
@@ -124,8 +126,15 @@ button {
 
 /* BGM 음표 애니메이션 (재생 중) */
 @keyframes bgm-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .bgm-btn.is-playing .bgm-icon-on {
@@ -284,6 +293,7 @@ body.loaded .phone-frame {
   .ribbon-container {
     top: -44%;
   }
+
   .envelope-back,
   .envelope-front {
     margin-top: 38%;
@@ -294,6 +304,7 @@ body.loaded .phone-frame {
   .ribbon-container {
     top: -40%;
   }
+
   .envelope-back,
   .envelope-front {
     margin-top: 42%;
@@ -494,13 +505,13 @@ body.loaded .phone-frame {
 /* 모바일에서 봉투가 내려간 만큼 사진도 아래로 — 기본 규칙 뒤에 위치해야 cascade 정상 동작 */
 @media (max-width: 480px) {
   .letter-photo-spacer {
-    padding-top: 81%;
+    padding-top: 82%;
   }
 }
 
 @media (max-width: 390px) {
   .letter-photo-spacer {
-    padding-top: 85%;
+    padding-top: 86%;
   }
 }
 
@@ -569,7 +580,8 @@ body.loaded .phone-frame {
   line-height: 2;
   color: var(--color-text-soft);
   letter-spacing: 0.04em;
-  word-break: keep-all; /* 문장 단위 줄바꿈 유지 */
+  word-break: keep-all;
+  /* 문장 단위 줄바꿈 유지 */
 }
 
 .lyrics-section {
@@ -585,7 +597,8 @@ body.loaded .phone-frame {
   line-height: 1.8;
   margin-bottom: 4px;
   word-break: keep-all;
-  letter-spacing: -0.02em; /* 문장이 한 줄에 들어가도록 자간 미세 조정 */
+  letter-spacing: -0.02em;
+  /* 문장이 한 줄에 들어가도록 자간 미세 조정 */
 }
 
 .lyrics-author {
@@ -973,8 +986,15 @@ body.loaded .phone-frame {
   opacity: 0.7;
 }
 
-.mcal-dow.sun { color: #b8856a; opacity: 1; }
-.mcal-dow.sat { color: #8a9db5; opacity: 1; }
+.mcal-dow.sun {
+  color: #b8856a;
+  opacity: 1;
+}
+
+.mcal-dow.sat {
+  color: #8a9db5;
+  opacity: 1;
+}
 
 .mcal-cell {
   font-size: 13px;
@@ -986,9 +1006,17 @@ body.loaded .phone-frame {
   position: relative;
 }
 
-.mcal-cell.empty { background: none; }
-.mcal-cell.sun { color: #b8856a; }
-.mcal-cell.sat { color: #8a9db5; }
+.mcal-cell.empty {
+  background: none;
+}
+
+.mcal-cell.sun {
+  color: #b8856a;
+}
+
+.mcal-cell.sat {
+  color: #8a9db5;
+}
 
 .mcal-cell.wedding-day {
   color: #fff !important;
