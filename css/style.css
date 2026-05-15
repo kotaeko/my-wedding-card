@@ -288,10 +288,6 @@ body.loaded .phone-frame {
   .envelope-front {
     margin-top: 38%;
   }
-  /* 봉투가 6% 내려간 만큼 사진도 아래로 */
-  .letter-photo-spacer {
-    padding-top: 92%;
-  }
 }
 
 @media (max-width: 390px) {
@@ -301,10 +297,6 @@ body.loaded .phone-frame {
   .envelope-back,
   .envelope-front {
     margin-top: 42%;
-  }
-  /* 봉투가 10% 내려간 만큼 사진도 아래로 */
-  .letter-photo-spacer {
-    padding-top: 96%;
   }
 }
 
@@ -497,6 +489,19 @@ body.loaded .phone-frame {
 .letter-photo-spacer {
   /* 봉투가 아래로 약 2.59% 이동했으므로 사진 간격도 동일하게 밀어 포토 홀(Hole) 위치에 수치 맞춤 (기존 73.53% -> 76.11%) */
   padding-top: 76.11%;
+}
+
+/* 모바일에서 봉투가 내려간 만큼 사진도 아래로 — 기본 규칙 뒤에 위치해야 cascade 정상 동작 */
+@media (max-width: 480px) {
+  .letter-photo-spacer {
+    padding-top: 92%;
+  }
+}
+
+@media (max-width: 390px) {
+  .letter-photo-spacer {
+    padding-top: 96%;
+  }
 }
 
 .letter-window-img {
