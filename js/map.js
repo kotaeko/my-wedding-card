@@ -5,33 +5,39 @@ document.addEventListener('DOMContentLoaded', () => {
   const C = WEDDING_CONTENT;
 
   // 1. 카카오맵 임베딩 (API)
+  const mapContainer = document.getElementById('kakao-map');
+  
   if (typeof kakao !== 'undefined' && kakao.maps && C.venueLat && C.venueLng) {
-    kakao.maps.load(() => {
-      const mapContainer = document.getElementById('kakao-map');
-      if (!mapContainer) return;
+    if (!mapContainer) return;
 
-      const mapOption = { 
-        center: new kakao.maps.LatLng(C.venueLat, C.venueLng), // 지도의 중심좌표
-        level: 4 // 지도의 확대 레벨
-      };
+    const mapOption = { 
+      center: new kakao.maps.LatLng(C.venueLat, C.venueLng), // 지도의 중심좌표
+      level: 4 // 지도의 확대 레벨
+    };
 
-      const map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+    const map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
-      // 마커를 생성합니다
-      const markerPosition  = new kakao.maps.LatLng(C.venueLat, C.venueLng); 
-      const marker = new kakao.maps.Marker({
-          position: markerPosition
-      });
-
-      // 마커가 지도 위에 표시되도록 설정합니다
-      marker.setMap(map);
-
-      // 스크롤 시 지도가 확대/축소 되는 것을 방지
-      map.setZoomable(false);
+    // 마커를 생성합니다
+    const markerPosition  = new kakao.maps.LatLng(C.venueLat, C.venueLng); 
+    const marker = new kakao.maps.Marker({
+        position: markerPosition
     });
+
+    // 마커가 지도 위에 표시되도록 설정합니다
+    marker.setMap(map);
+
+    // 스크롤 시 지도가 확대/축소 되는 것을 방지
+    map.setZoomable(false);
   } else {
-    const mapContainer = document.getElementById('kakao-map');
-    if (mapContainer) mapContainer.style.display = 'none';
+    // API 로드 실패 시 에러 텍스트 표시
+    if (mapContainer) {
+      mapContainer.style.display = 'flex';
+      mapContainer.style.alignItems = 'center';
+      mapContainer.style.justifyContent = 'center';
+      mapContainer.style.fontSize = '12px';
+      mapContainer.style.color = '#888';
+      mapContainer.innerText = '카카오맵을 불러올 수 없습니다. 도메인 설정을 확인해주세요.';
+    }
   }
 
   // 2. 외부 링크 버튼 설정
