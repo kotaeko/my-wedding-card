@@ -1,37 +1,36 @@
 // map.js
-// 네이버 지도 초기화 및 지도 버튼 링크를 설정합니다.
+// 카카오맵 초기화 및 외부 지도 버튼 링크를 설정합니다.
 
 document.addEventListener('DOMContentLoaded', () => {
   const C = WEDDING_CONTENT;
 
-  // 1. 네이버 지도 임베딩 (API)
-  if (typeof naver !== 'undefined' && naver.maps && C.venueLat && C.venueLng) {
-    const position = new naver.maps.LatLng(C.venueLat, C.venueLng);
-    
-    const mapOptions = {
-      center: position,
-      zoom: 15,
-      minZoom: 10,
-      zoomControl: true,
-      zoomControlOptions: {
-        position: naver.maps.Position.TOP_RIGHT
-      },
-      draggable: true,
-      pinchZoom: true,
-      scrollWheel: false, // 스크롤 시 지도가 확대/축소되는 것 방지
-      disableKineticPan: false
-    };
+  // 1. 카카오맵 임베딩 (API)
+  if (typeof kakao !== 'undefined' && kakao.maps && C.venueLat && C.venueLng) {
+    kakao.maps.load(() => {
+      const mapContainer = document.getElementById('kakao-map');
+      if (!mapContainer) return;
 
-    const map = new naver.maps.Map('naver-map', mapOptions);
+      const mapOption = { 
+        center: new kakao.maps.LatLng(C.venueLat, C.venueLng), // 지도의 중심좌표
+        level: 4 // 지도의 확대 레벨
+      };
 
-    // 마커 추가
-    new naver.maps.Marker({
-      position: position,
-      map: map
+      const map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+      // 마커를 생성합니다
+      const markerPosition  = new kakao.maps.LatLng(C.venueLat, C.venueLng); 
+      const marker = new kakao.maps.Marker({
+          position: markerPosition
+      });
+
+      // 마커가 지도 위에 표시되도록 설정합니다
+      marker.setMap(map);
+
+      // 스크롤 시 지도가 확대/축소 되는 것을 방지
+      map.setZoomable(false);
     });
   } else {
-    // API 로드 실패 시 컨테이너 숨김
-    const mapContainer = document.getElementById('naver-map');
+    const mapContainer = document.getElementById('kakao-map');
     if (mapContainer) mapContainer.style.display = 'none';
   }
 
