@@ -494,13 +494,13 @@ body.loaded .phone-frame {
 /* 모바일에서 봉투가 내려간 만큼 사진도 아래로 — 기본 규칙 뒤에 위치해야 cascade 정상 동작 */
 @media (max-width: 480px) {
   .letter-photo-spacer {
-    padding-top: 83%;
+    padding-top: 81%;
   }
 }
 
 @media (max-width: 390px) {
   .letter-photo-spacer {
-    padding-top: 87%;
+    padding-top: 85%;
   }
 }
 
