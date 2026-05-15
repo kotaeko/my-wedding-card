@@ -290,7 +290,7 @@ body.loaded .phone-frame {
   }
   /* 봉투가 6% 내려간 만큼 사진도 아래로 */
   .letter-photo-spacer {
-    padding-top: 82.11%;
+    padding-top: 92%;
   }
 }
 
@@ -304,7 +304,7 @@ body.loaded .phone-frame {
   }
   /* 봉투가 10% 내려간 만큼 사진도 아래로 */
   .letter-photo-spacer {
-    padding-top: 86.11%;
+    padding-top: 96%;
   }
 }
 
