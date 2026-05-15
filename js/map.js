@@ -11,27 +11,39 @@ document.addEventListener('DOMContentLoaded', () => {
     kakao.maps.load(() => {
       if (!mapContainer || !C.venueLat || !C.venueLng) return;
 
-      const mapOption = { 
-        center: new kakao.maps.LatLng(C.venueLat, C.venueLng), // 지도의 중심좌표
-        level: 4 // 지도의 확대 레벨
-      };
+      // 맵이 그려지기 전에 혹시 남아있을 수 있는 에러 텍스트를 제거
+      mapContainer.innerHTML = '';
 
-      const map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+      // 카카오맵 장소 검색 서비스 객체를 생성합니다
+      const ps = new kakao.maps.services.Places();
 
-      // 마커를 생성합니다
-      const markerPosition  = new kakao.maps.LatLng(C.venueLat, C.venueLng); 
-      const marker = new kakao.maps.Marker({
-          position: markerPosition
+      // 키워드로 장소를 검색합니다 (정확한 핀 위치를 위해)
+      ps.keywordSearch('까사그랑데센트로', function(data, status) {
+          let coords;
+          if (status === kakao.maps.services.Status.OK) {
+              // 검색된 장소의 좌표를 사용합니다
+              coords = new kakao.maps.LatLng(data[0].y, data[0].x);
+          } else {
+              // 검색 실패 시 fallback으로 기존 좌표 사용
+              coords = new kakao.maps.LatLng(C.venueLat, C.venueLng);
+          }
+
+          const mapOption = { 
+            center: coords, // 지도의 중심좌표
+            level: 4 // 지도의 확대 레벨
+          };
+
+          const map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+          // 마커를 생성합니다
+          const marker = new kakao.maps.Marker({
+              position: coords,
+              map: map
+          });
+
+          // 스크롤 시 지도가 확대/축소 되는 것을 방지
+          map.setZoomable(false);
       });
-
-      // 마커가 지도 위에 표시되도록 설정합니다
-      marker.setMap(map);
-
-      // 스크롤 시 지도가 확대/축소 되는 것을 방지
-      map.setZoomable(false);
-      
-      // 로딩 성공 시 에러 텍스트가 있었다면 지움
-      mapContainer.innerText = '';
     });
   } else {
     // API 로드 실패 시 에러 텍스트 표시

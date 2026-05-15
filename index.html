@@ -123,7 +123,7 @@
             <!-- ⑤ 연애 타임라인 -->
             <section id="timeline-section" class="section section-timeline fade-in">
               <div class="section-inner">
-                <h2 class="section-title">OUR TIMELINE</h2>
+                <h2 class="section-title">우리의 이야기</h2>
                 <p class="timeline-subtitle" id="timeline-subtitle"></p>
                 <div id="timeline-list" class="timeline-list"></div>
               </div>
@@ -149,42 +149,25 @@
                   <a id="btn-kakao-map" class="map-btn map-btn-kakao" href="#" target="_blank" rel="noopener">카카오맵</a>
                 </div>
                 <div id="transport-list" class="transport-list"></div>
+                <p id="parking-notice" class="parking-notice"></p>
               </div>
             </section>
 
             <!-- ⑧ 마음 전하기 (계좌번호) -->
             <section id="accounts" class="section section-accounts fade-in">
               <div class="section-inner">
-                <h2 class="section-title accounts-title">WEDDING GIFT.</h2>
+                <h2 class="section-title">축하의 마음 전하기</h2>
                 <div id="accounts-list" class="accounts-list"></div>
               </div>
             </section>
 
-            <!-- ⑨ 하객 사진 공유 -->
-            <section id="guest-photos" class="section section-guest-photos fade-in">
-              <div class="section-inner">
-                <h2 class="section-title">포토 공유</h2>
-                <p class="guest-photo-message" id="guest-photo-message"></p>
-                <div class="upload-form" id="upload-form">
-                  <input type="text" id="uploader-name" class="upload-input" placeholder="이름을 입력해 주세요" maxlength="20" />
-                  <label class="upload-file-label" for="upload-file">
-                    <span id="upload-file-text">사진 선택</span>
-                    <input type="file" id="upload-file" accept="image/*" multiple style="display:none;" />
-                  </label>
-                  <button id="upload-btn" class="upload-btn">올리기</button>
-                  <p id="upload-status" class="upload-status"></p>
-                </div>
-                <div id="guest-grid" class="gallery-grid guest-gallery-grid"></div>
-                <p id="guest-empty" class="gallery-empty">아직 올라온 사진이 없습니다.</p>
-              </div>
-            </section>
 
             <!-- ⑩ 연락처 + RSVP -->
             <section id="contact" class="section section-contact fade-in">
               <div class="section-inner">
                 <h2 class="section-title">연락처</h2>
                 <div id="contact-list" class="contact-list"></div>
-                <button id="rsvp-open-btn" class="rsvp-open-btn">✉ 참석 의사 전달하기</button>
+
               </div>
             </section>
 
@@ -232,57 +215,6 @@
 
   </div><!-- /phone-frame -->
 
-  <!-- RSVP 모달 -->
-  <div id="rsvp-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="참석 의사 전달">
-    <div class="modal-sheet">
-      <div class="modal-header">
-        <h3 class="modal-title">참석 의사 전달하기</h3>
-        <button class="modal-close" id="rsvp-close">✕</button>
-      </div>
-      <div class="modal-body">
-        <div class="rsvp-field">
-          <label class="rsvp-label">성함 <span class="required">*</span></label>
-          <input type="text" id="rsvp-name" class="rsvp-input" placeholder="성함을 입력해주세요" maxlength="20" />
-        </div>
-        <div class="rsvp-field">
-          <label class="rsvp-label">연락처</label>
-          <input type="tel" id="rsvp-phone" class="rsvp-input" placeholder="010-0000-0000" maxlength="13" />
-        </div>
-        <div class="rsvp-field">
-          <label class="rsvp-label">구분</label>
-          <div class="toggle-group" id="rsvp-side">
-            <button class="toggle-btn active" data-value="신랑측">신랑측</button>
-            <button class="toggle-btn" data-value="신부측">신부측</button>
-          </div>
-        </div>
-        <div class="rsvp-field">
-          <label class="rsvp-label">참석 여부 <span class="required">*</span></label>
-          <div class="toggle-group" id="rsvp-attend">
-            <button class="toggle-btn" data-value="참석">참석</button>
-            <button class="toggle-btn" data-value="불참석">불참석</button>
-          </div>
-        </div>
-        <div class="rsvp-field" id="rsvp-headcount-wrap">
-          <label class="rsvp-label">참석 인원</label>
-          <input type="number" id="rsvp-headcount" class="rsvp-input" placeholder="본인 포함 총 참석인원" min="1" max="20" />
-        </div>
-        <div class="rsvp-field" id="rsvp-companion-wrap">
-          <label class="rsvp-label">동행인</label>
-          <input type="text" id="rsvp-companion" class="rsvp-input" placeholder="함께 오시는 분 성함" maxlength="30" />
-        </div>
-        <div class="rsvp-field">
-          <label class="rsvp-label">식사 여부</label>
-          <div class="toggle-group" id="rsvp-meal">
-            <button class="toggle-btn" data-value="예정">예정</button>
-            <button class="toggle-btn" data-value="안함">안함</button>
-            <button class="toggle-btn active" data-value="미정">미정</button>
-          </div>
-        </div>
-        <p id="rsvp-status" class="rsvp-status"></p>
-        <button id="rsvp-submit-btn" class="rsvp-submit-btn">✓ 참석 의사 전달하기</button>
-      </div>
-    </div>
-  </div>
 
   <!-- 라이트박스 (갤러리 전체화면) -->
   <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="사진 확대">
@@ -294,15 +226,14 @@
   </div>
 
   <!-- 스크립트 -->
-  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b88e001bcc97122844049fcd1f5d406c&autoload=false"></script>
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b88e001bcc97122844049fcd1f5d406c&libraries=services&autoload=false"></script>
   <script src="content.js"></script>
   <script src="js/main.js"></script>
   <script src="js/countdown.js"></script>
   <script src="js/gallery.js"></script>
   <script src="js/map.js"></script>
   <script src="firebase-config.js"></script>
-  <script src="js/guest-upload.js"></script>
-  <script src="js/rsvp.js"></script>
+
 </body>
 
 </html>

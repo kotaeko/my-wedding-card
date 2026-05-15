@@ -152,6 +152,11 @@ document.addEventListener('DOMContentLoaded', () => {
     transportList.appendChild(div);
   });
 
+  const parkingNoticeEl = document.getElementById('parking-notice');
+  if (parkingNoticeEl && C.parkingNotice) {
+    parkingNoticeEl.textContent = C.parkingNotice;
+  }
+
   // ── 연애 타임라인 ─────────────────────────────────────────
   const timelineSubtitleEl = document.getElementById('timeline-subtitle');
   if (timelineSubtitleEl && C.timelineSubtitle) {

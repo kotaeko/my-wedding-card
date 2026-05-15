@@ -167,14 +167,6 @@ body.loaded .phone-frame {
   margin-bottom: var(--space-md);
 }
 
-.section-title::after {
-  content: '';
-  display: block;
-  width: 40px;
-  height: 1px;
-  background: var(--color-primary-light);
-  margin: var(--space-xs) auto 0;
-}
 
 /* ── ① 커버 (Sleeve 봉투 애니메이션) ────────────────────────────────────────── */
 .section-hero {
@@ -458,8 +450,8 @@ body.loaded .phone-frame {
   font-family: var(--font-serif);
   font-size: 13px;
   color: #222;
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -467,7 +459,10 @@ body.loaded .phone-frame {
 }
 
 .cal-date-num.is-wedding {
-  border: 1px solid #333;
+  border: none;
+  color: #222;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff4d4d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") no-repeat center 2px;
+  background-size: 28px 28px;
 }
 
 .letter-photo-spacer {
@@ -1358,12 +1353,12 @@ body.loaded .phone-frame {
 
 .transport-item {
   display: flex;
-  align-items: baseline;
-  gap: 10px;
+  align-items: flex-start;
+  gap: 12px;
   font-size: var(--fs-sm);
   background: var(--color-surface);
   border-radius: var(--radius-sm);
-  padding: 10px 14px;
+  padding: 14px 16px;
 }
 
 .transport-icon {
@@ -1376,6 +1371,7 @@ body.loaded .phone-frame {
   color: var(--color-text);
   min-width: 40px;
   flex-shrink: 0;
+  margin-top: 1px;
 }
 
 .transport-detail {
@@ -1383,121 +1379,20 @@ body.loaded .phone-frame {
   line-height: 1.5;
 }
 
-/* ── ⑥ 포토 공유 ────────────────────────────────────────── */
-.section-guest-photos {
-  background: var(--color-bg);
-}
-
-.guest-photo-message {
-  font-size: var(--fs-sm);
-  color: var(--color-text-soft);
-  line-height: 2;
-  margin-bottom: var(--space-md);
-}
-
-.upload-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  margin-bottom: var(--space-lg);
-  max-width: 320px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.upload-input {
-  padding: 12px 16px;
-  border: 1px solid var(--color-divider);
-  border-radius: var(--radius-sm);
-  font-family: var(--font-serif);
-  font-size: var(--fs-sm);
-  color: var(--color-text);
-  background: var(--color-surface);
-  outline: none;
-  transition: border-color var(--transition);
-}
-
-.upload-input:focus {
-  border-color: var(--color-primary);
-}
-
-.upload-file-label {
-  padding: 12px 16px;
-  border: 1px dashed var(--color-primary-light);
-  border-radius: var(--radius-sm);
-  font-size: var(--fs-sm);
+.parking-notice {
+  margin-top: var(--space-md);
+  font-size: 11px;
   color: var(--color-primary);
-  text-align: center;
-  cursor: pointer;
-  transition: background var(--transition);
-  background: transparent;
-}
-
-.upload-file-label:hover {
-  background: rgba(184, 149, 106, 0.06);
-}
-
-.upload-btn {
-  padding: 13px;
-  background: var(--color-primary);
-  color: #fff;
-  border-radius: var(--radius-sm);
-  font-family: var(--font-serif);
-  font-size: var(--fs-sm);
-  letter-spacing: 0.1em;
-  transition: background var(--transition);
-}
-
-.upload-btn:hover {
-  background: #9e7a50;
-}
-
-.upload-btn:disabled {
-  background: var(--color-text-muted);
-  cursor: not-allowed;
-}
-
-.upload-status {
-  font-size: var(--fs-xs);
-  line-height: 1.5;
-  min-height: 18px;
+  line-height: 1.6;
+  word-break: keep-all;
+  opacity: 0.85;
+  font-style: italic;
+  padding: 12px;
+  border-top: 1px solid var(--color-divider);
   text-align: center;
 }
 
-.upload-status.error {
-  color: #c0392b;
-}
 
-.upload-status.info {
-  color: var(--color-text-soft);
-}
-
-.upload-status.success {
-  color: #27ae60;
-}
-
-.guest-gallery-grid {
-  margin-top: var(--space-sm);
-}
-
-.guest-item {
-  position: relative;
-}
-
-.guest-item-name {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.45);
-  color: #fff;
-  font-size: 10px;
-  padding: 3px 6px;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
 /* ── ⑦ 마음 전하기 ──────────────────────────────────────── */
 .section-accounts {
@@ -1611,7 +1506,7 @@ body.loaded .phone-frame {
 
 /* ── ⑧ 연락처 ───────────────────────────────────────────── */
 .section-contact {
-  background: var(--color-surface);
+  background: var(--color-bg);
 }
 
 .contact-list {
