@@ -27,7 +27,7 @@ body {
   font-family: var(--font-serif);
   font-size: var(--fs-base);
   color: var(--color-text);
-  background: #e8e0d8;
+  background: var(--color-outer-bg);
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -55,7 +55,7 @@ button {
 .loading-overlay {
   position: fixed;
   inset: 0;
-  background: #e8e0d8;
+  background: var(--color-outer-bg);
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -73,8 +73,8 @@ button {
 .loading-ring {
   width: 32px;
   height: 32px;
-  border: 2px solid rgba(184, 149, 106, 0.25);
-  border-top-color: #b8956a;
+  border: 2px solid rgba(143, 122, 102, 0.25);
+  border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: loading-spin 1s linear infinite;
 }
@@ -185,7 +185,7 @@ body.loaded .phone-frame {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  background: #fdfdfd;
+  background: var(--color-bg);
   padding-top: 0;
   /* 상단 여백 완전 제거 (화면 꽉 차게) */
   margin: 0;
@@ -212,7 +212,7 @@ body.loaded .phone-frame {
   width: 100%;
   height: auto;
   aspect-ratio: 3.4 / 4.2;
-  background: #f7f7f7;
+  background: var(--color-outer-bg);
   /* 아주 밝은 이너 페이퍼 질감 */
   border-radius: 4px;
   z-index: 1;
@@ -385,13 +385,13 @@ body.loaded .phone-frame {
 .view-details-txt {
   font-family: var(--font-display);
   font-size: 13px;
-  color: #333;
+  color: var(--color-text-soft);
   letter-spacing: 0.1em;
 }
 
 .view-details-arrow {
   font-size: 14px;
-  color: #111;
+  color: var(--color-text);
   animation: bounceUp 1.5s infinite;
 }
 
@@ -438,7 +438,7 @@ body.loaded .phone-frame {
   font-size: 22px;
   font-weight: 400;
   letter-spacing: 0.08em;
-  color: #222;
+  color: var(--color-text);
   margin-bottom: 24px;
   /* 달력만 추가로 아래로 밀어줌 */
 }
@@ -448,7 +448,7 @@ body.loaded .phone-frame {
   font-size: 14px;
   font-weight: 300;
   margin: 0 10px;
-  color: #666;
+  color: var(--color-text-soft);
   letter-spacing: 0.05em;
 }
 
@@ -474,14 +474,14 @@ body.loaded .phone-frame {
 .cal-day-label {
   font-family: var(--font-serif);
   font-size: 11px;
-  color: #777;
+  color: var(--color-text-soft);
   text-transform: capitalize;
 }
 
 .cal-date-num {
   font-family: var(--font-serif);
   font-size: 13px;
-  color: #222;
+  color: var(--color-text);
   width: 30px;
   height: 30px;
   display: flex;
@@ -492,8 +492,8 @@ body.loaded .phone-frame {
 
 .cal-date-num.is-wedding {
   border: none;
-  color: #222;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff4d4d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") no-repeat center 2px;
+  color: var(--color-text);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ee8c7a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") no-repeat center 2px;
   background-size: 28px 28px;
 }
 
@@ -519,7 +519,7 @@ body.loaded .phone-frame {
   width: 58.82%;
   aspect-ratio: 1 / 1;
   margin: 0 auto 30px;
-  background: #f0f0f0;
+  background: var(--color-bg);
   border-radius: 2px;
   overflow: hidden;
   /* 봉투가 내려갈 때 사진이 부드럽게 위로 끌어올려지는 에어메이션 */
@@ -542,7 +542,7 @@ body.loaded .phone-frame {
 .letter-date {
   font-family: var(--font-serif);
   font-size: 14px;
-  color: #222;
+  color: var(--color-text);
   letter-spacing: 0.05em;
   margin-bottom: 40px;
 }
@@ -722,8 +722,8 @@ body.loaded .phone-frame {
 
 .map-btn-naver:hover,
 .map-btn-naver:active {
-  background: #03c75a;
-  border-color: #03c75a;
+  background: var(--color-naver-green);
+  border-color: var(--color-naver-green);
   color: #fff;
 }
 
@@ -735,9 +735,9 @@ body.loaded .phone-frame {
 
 .map-btn-kakao:hover,
 .map-btn-kakao:active {
-  background: #f9d800;
-  border-color: #f9d800;
-  color: #3a1d1d;
+  background: var(--color-kakao-yellow);
+  border-color: var(--color-kakao-yellow);
+  color: var(--color-kakao-brown);
 }
 
 /* ── RSVP 버튼 (연락처 섹션 하단) ──────────────────────── */
@@ -756,7 +756,7 @@ body.loaded .phone-frame {
 }
 
 .rsvp-open-btn:hover {
-  background: #9e7a50;
+  background: var(--color-primary-hover);
 }
 
 /* ── 모달 공통 ──────────────────────────────────────────── */
@@ -883,7 +883,7 @@ body.loaded .phone-frame {
 }
 
 .rsvp-status.error {
-  color: #c0392b;
+  color: var(--color-error);
 }
 
 .rsvp-status.info {
@@ -891,7 +891,7 @@ body.loaded .phone-frame {
 }
 
 .rsvp-status.success {
-  color: #27ae60;
+  color: var(--color-success);
 }
 
 .rsvp-submit-btn {
@@ -909,7 +909,7 @@ body.loaded .phone-frame {
 }
 
 .rsvp-submit-btn:hover {
-  background: #9e7a50;
+  background: var(--color-primary-hover);
 }
 
 .rsvp-submit-btn:disabled {
@@ -987,12 +987,12 @@ body.loaded .phone-frame {
 }
 
 .mcal-dow.sun {
-  color: #b8856a;
+  color: var(--color-sun);
   opacity: 1;
 }
 
 .mcal-dow.sat {
-  color: #8a9db5;
+  color: var(--color-sat);
   opacity: 1;
 }
 
@@ -1011,11 +1011,11 @@ body.loaded .phone-frame {
 }
 
 .mcal-cell.sun {
-  color: #b8856a;
+  color: var(--color-sun);
 }
 
 .mcal-cell.sat {
-  color: #8a9db5;
+  color: var(--color-sat);
 }
 
 .mcal-cell.wedding-day {
@@ -1121,7 +1121,7 @@ body.loaded .phone-frame {
   text-align: left;
 }
 
-/* 중앙 세로선 */
+/* 중앙 세로선: 은은하고 얇게 처리 */
 .timeline-list::before {
   content: '';
   position: absolute;
@@ -1129,71 +1129,52 @@ body.loaded .phone-frame {
   top: 0;
   bottom: 0;
   width: 1px;
-  background: var(--color-divider);
+  background: rgba(143, 122, 102, 0.2); /* 얇고 투명한 세로선 */
   transform: translateX(-50%);
   z-index: 0;
 }
 
-/* ── 날짜 배지 ── */
+/* 기존 날짜 배지는 숨기거나 제거 */
 .tl-date-badge {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-  margin: var(--space-lg) 0 var(--space-sm);
-}
-
-.tl-date-badge:first-child {
-  margin-top: var(--space-xs);
-}
-
-.tl-date-badge-inner {
-  background: var(--color-primary);
-  color: #fff;
-  font-family: var(--font-serif);
-  font-size: 12px;
-  padding: 5px 15px;
-  border-radius: 20px;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
+  display: none;
 }
 
 /* ── 타임라인 행 (좌우 교차) ── */
 .tl-row {
   display: grid;
-  grid-template-columns: 1fr 28px 1fr;
+  grid-template-columns: 1fr 32px 1fr;
   align-items: flex-start;
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-xl);
   position: relative;
   z-index: 1;
 }
 
-/* 사진 컬럼 정렬 */
+/* 사진 컬럼 정렬 및 여백 확보 */
 .tl-row.tl-photo-left .tl-photo-col {
   display: flex;
   justify-content: flex-end;
-  padding-right: 8px;
+  padding-right: 12px;
 }
 
 .tl-row.tl-photo-right .tl-photo-col {
   display: flex;
   justify-content: flex-start;
-  padding-left: 8px;
+  padding-left: 12px;
 }
 
 .tl-img {
-  width: 120px;
-  height: 120px;
+  width: 130px;
+  height: 130px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 16px; /* 더욱 부드럽게 둥글려진 모서리 */
   display: block;
 }
 
 .tl-img-placeholder {
-  width: 120px;
-  height: 120px;
+  width: 130px;
+  height: 130px;
   background: var(--color-surface);
-  border-radius: 10px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1201,49 +1182,57 @@ body.loaded .phone-frame {
   font-size: 26px;
 }
 
-/* 도트 컬럼 */
+/* 도트 컬럼 및 미니멀 도트 */
 .tl-line-col {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding-top: 6px;
+  align-items: center; /* 세로 중앙 정렬로 점 위치를 사진 중앙과 일치시킴 */
+  height: 130px; /* 사진 높이(130px)와 동일하게 높이 지정 */
   position: relative;
   z-index: 1;
 }
 
 .tl-dot {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: var(--color-primary);
-  border: 2px solid var(--color-bg);
-  box-shadow: 0 0 0 1px var(--color-primary);
+  background: var(--color-text-soft); /* 기품 있는 에스프레소 브라운의 작은 점 */
+  border: none;
+  box-shadow: none;
   flex-shrink: 0;
 }
 
-/* 텍스트 컬럼 */
+/* 텍스트 컬럼 정렬 및 디자인 */
 .tl-row.tl-photo-left .tl-text-col {
-  padding-left: 8px;
+  padding-left: 12px;
+  padding-top: 8px; /* 첫 줄 정렬 맞춤 */
   text-align: left;
 }
 
 .tl-row.tl-photo-right .tl-text-col {
-  padding-right: 8px;
-  text-align: right;
+  padding-left: 36px; /* 왼쪽 가장자리에서 자연스럽게 띄워 정렬 (오른쪽으로 살짝 이동) */
+  padding-right: 12px;
+  padding-top: 8px; /* 첫 줄 정렬 맞춤 */
+  text-align: left; /* 레퍼런스 이미지의 깔끔함을 따라 텍스트는 좌측 정렬 */
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
+}
+
+.tl-date-sub {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
+  margin-bottom: 4px;
+  display: block;
 }
 
 .tl-title-row {
   display: flex;
   align-items: center;
   gap: 4px;
-  margin-bottom: 6px;
-}
-
-.tl-row.tl-photo-right .tl-title-row {
-  flex-direction: row-reverse;
+  margin-bottom: 8px;
 }
 
 .tl-icon {
@@ -1253,16 +1242,27 @@ body.loaded .phone-frame {
 
 .tl-title {
   font-family: var(--font-serif);
-  font-size: var(--fs-base);
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700; /* 조금 더 명확한 볼드 */
   color: var(--color-text);
   line-height: 1.3;
+  letter-spacing: -0.01em;
 }
 
 .tl-desc {
-  font-size: var(--fs-xs);
+  font-size: 13px;
   color: var(--color-text-soft);
-  line-height: 1.8;
+  line-height: 1.75;
+  letter-spacing: -0.02em;
+  word-break: keep-all;
+}
+
+/* 감성적인 형광펜 하이라이트 효과 */
+.tl-highlight {
+  background: linear-gradient(180deg, rgba(255,255,255,0) 45%, rgba(253, 230, 138, 0.75) 45%);
+  padding: 0 2px;
+  font-weight: 600;
+  color: var(--color-text);
 }
 
 /* ── 마일스톤 (중앙 강조 요소) ── */
@@ -1276,12 +1276,12 @@ body.loaded .phone-frame {
 }
 
 .tl-milestone-badge {
-  background: #e8c86e;
-  color: #4a3800;
+  background: var(--color-milestone-bg);
+  color: var(--color-milestone-text);
   font-family: var(--font-serif);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  padding: 6px 18px;
+  padding: 5px 16px;
   border-radius: 20px;
   margin-bottom: var(--space-sm);
   letter-spacing: 0.03em;
@@ -1292,22 +1292,23 @@ body.loaded .phone-frame {
   background: var(--color-surface);
   border-radius: var(--radius-md);
   padding: var(--space-sm) var(--space-md);
-  max-width: 200px;
+  max-width: 220px;
   box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(143, 122, 102, 0.1);
 }
 
 .tl-milestone-title {
   font-family: var(--font-serif);
-  font-size: var(--fs-sm);
+  font-size: 13px;
   font-weight: 600;
   color: var(--color-text);
   margin-bottom: 6px;
 }
 
 .tl-milestone-desc {
-  font-size: var(--fs-xs);
+  font-size: 12px;
   color: var(--color-text-soft);
-  line-height: 1.8;
+  line-height: 1.7;
 }
 
 /* ── ⑥ 갤러리 (폴라로이드 그리드) ──────────────────────── */
@@ -1316,45 +1317,183 @@ body.loaded .phone-frame {
 }
 
 #gallery-grid {
-  margin-top: var(--space-sm);
+  display: none;
 }
 
-.polaroid-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+/* 메인 큰 폴라로이드 사진 영역 */
+.gallery-main-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
   padding: 8px 4px;
 }
 
-.polaroid-card {
-  background: #fff;
-  padding: 6px 6px 18px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.13);
+/* 갤러리 메인 내비게이션 버튼 (프리미엄 피치 코랄 글래스 디자인) */
+.gallery-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 38px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(238, 140, 122, 0.25);
+  border-radius: 50%;
+  font-size: 22px;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: background var(--transition), transform var(--transition), color var(--transition), border-color var(--transition);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.gallery-nav-btn:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.gallery-nav-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.gallery-nav-btn.btn-prev {
+  left: 12px;
+  padding-right: 2px;
+}
+
+.gallery-nav-btn.btn-next {
+  right: 12px;
+  padding-left: 2px;
+}
+
+/* 모바일 터치 영역 확장을 위한 가상 요소 */
+.gallery-nav-btn::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+}
+
+/* 메인 큰 폴라로이드 카드 */
+.main-polaroid {
+  background: var(--color-surface);
+  padding: 10px 10px 48px; /* 아래 여백을 더 줘서 폴라로이드 느낌 극대화 */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+  max-width: 100%;
+  width: 320px;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
   will-change: transform;
 }
 
-.polaroid-card:hover {
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-  transform: scale(1.05);
+.main-polaroid:hover {
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06);
+  transform: translateY(-4px) scale(1.02);
 }
 
-.polaroid-card img {
+.main-polaroid img {
   width: 100%;
-  aspect-ratio: 1;
+  aspect-ratio: 3/4; /* 사진 비율을 세로형으로 깔끔하게 통일하여 안정감 부여 */
   object-fit: cover;
   object-position: center center;
   display: block;
   -webkit-user-drag: none;
   user-select: none;
+  opacity: 1;
+  transition: opacity 0.25s ease-in-out; /* 크로스페이드 트랜지션 */
+}
+
+/* 썸네일 가로 스크롤 미리보기 래퍼 */
+.gallery-thumbs-wrap {
+  position: relative;
+  margin: 0 -4px; /* 바깥 마진 보정 */
+  padding: 0 4px;
+}
+
+/* 우측 페이드 마스크로 가로 스크롤 힌트 표시 */
+.gallery-thumbs-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 48px;
+  background: linear-gradient(to right, transparent, var(--color-surface));
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* 썸네일 가로 스크롤 리스트 */
+.gallery-thumbs-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 8px 32px 16px 8px; /* 우측 마스크와 그림자 잘림 방지를 위해 여백 추가 */
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+.gallery-thumbs-scroll::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* 개별 썸네일 */
+.thumb-item {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: 12px; /* 둥근 모서리 */
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0.5; /* 비활성 상태 썸네일 투명도 */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border: 2px solid transparent;
+  transition: opacity var(--transition), border-color var(--transition), transform var(--transition);
+  will-change: transform;
+}
+
+.thumb-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* 마우스 호버 효과 */
+.thumb-item:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+/* 활성화된 썸네일 */
+.thumb-item.active {
+  opacity: 1;
+  border-color: var(--color-primary); /* 메인 봄날의 피치 코랄 색상 테두리 */
+  box-shadow: 0 4px 12px rgba(238, 140, 122, 0.3); /* 피치색 네온 글로우 */
+  transform: translateY(-3px) scale(1.05); /* 살짝 커지며 위로 올라옴 */
 }
 
 .gallery-empty {
   font-size: var(--fs-sm);
   color: var(--color-text-muted);
   padding: var(--space-md) 0;
+  text-align: center;
 }
+
 
 /* 하객 사진 그리드 */
 .gallery-grid.guest-gallery-grid {
@@ -1561,8 +1700,8 @@ body.loaded .phone-frame {
 }
 
 .copy-btn.copied {
-  background: #27ae60;
-  border-color: #27ae60;
+  background: var(--color-success);
+  border-color: var(--color-success);
   color: #fff;
 }
 
@@ -1602,7 +1741,7 @@ body.loaded .phone-frame {
 }
 
 .contact-call-btn:hover {
-  background: #9e7a50;
+  background: var(--color-primary-hover);
 }
 
 /* ── 푸터 ───────────────────────────────────────────────── */
@@ -1638,7 +1777,7 @@ body.loaded .phone-frame {
   max-height: 70vh;
   object-fit: contain;
   display: block;
-  background: #fff;
+  background: var(--color-surface);
   padding: 10px 10px 36px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   -webkit-user-drag: none;

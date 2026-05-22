@@ -10,7 +10,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" id="og-title" content="고태혁 ♥ 김서아 결혼합니다 💍" />
   <meta property="og:description" id="og-description" content="2026년 7월 5일 일요일 오후 1시 20분 | 까사그랑데센트로" />
-  <meta property="og:image" id="og-image" content="https://my-wedding-card.pages.dev/images/We%E2%80%99re%20getting%20married!.webp" />
+  <meta property="og:image" id="og-image" content="https://my-wedding-card.pages.dev/images/OG.webp" />
   <meta name="twitter:card" content="summary_large_image" />
 
   <!-- 웹폰트 -->
@@ -133,7 +133,21 @@
             <section id="gallery" class="section section-gallery fade-in">
               <div class="section-inner">
                 <h2 class="section-title">갤러리</h2>
-                <div id="gallery-grid" class="gallery-grid"></div>
+                
+                <!-- 메인 큰 폴라로이드 사진 -->
+                <div class="gallery-main-wrap">
+                  <button class="gallery-nav-btn btn-prev" id="gallery-prev" aria-label="이전 사진">&#8249;</button>
+                  <div class="polaroid-card main-polaroid" id="gallery-main-card">
+                    <img id="gallery-main-img" src="" alt="갤러리 메인 사진" draggable="false">
+                  </div>
+                  <button class="gallery-nav-btn btn-next" id="gallery-next" aria-label="다음 사진">&#8250;</button>
+                </div>
+                
+                <!-- 썸네일 가로 스크롤 미리보기 -->
+                <div class="gallery-thumbs-wrap">
+                  <div id="gallery-thumbs-scroll" class="gallery-thumbs-scroll"></div>
+                </div>
+                
                 <p id="gallery-empty" class="gallery-empty" style="display:none;">사진을 준비 중입니다.</p>
               </div>
             </section>

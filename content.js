@@ -65,18 +65,12 @@ const WEDDING_CONTENT = {
   // 갤러리와 무관하게 별도로 관리됩니다.
   heroPhoto: "images/couple.webp",
 
-  // ── 커플 사진 갤러리 (구글 드라이브) ─────────────────────
+  // ── 커플 사진 갤러리 (자동 로드) ───────────────────────────
   //
   // 사진 추가 방법:
-  //   1. 구글 드라이브에 사진 업로드
-  //   2. 사진 우클릭 → 공유 → "링크가 있는 모든 사용자" 로 변경
-  //   3. 공유 링크에서 파일 ID만 복사하세요
-  //      예) https://drive.google.com/file/d/[ 이 부분 ]/view?usp=sharing
-  //   4. 아래에 줄 추가: "파일ID",
-  couplePhotos: [
-    "13F3HG_a216-0pck5jd75002Ixbu53p8Y",
-    "17qOcsUixbtVMWWqBz4TTPrQocogFzORd",
-  ],
+  //   1. images/갤러리 폴더에 사진 파일을 넣으세요.
+  //   2. 사진 파일의 이름을 반드시 1.jpg, 2.jpg, 3.jpg ... 순서대로 지정해 주세요.
+  //   (최대 50장까지 자동으로 불러옵니다. 이 부분에는 아무것도 적지 않으셔도 됩니다.)
 
   // ── 계좌번호 (축의금) ─────────────────────────────────────
   // role: 행 왼쪽에 표시되는 역할 (신랑, 아버지, 어머니 등)
@@ -84,9 +78,9 @@ const WEDDING_CONTENT = {
   // 없으면 해당 줄을 통째로 지우세요
   accounts: {
     groom: [
-      { role: "신랑", bank: "은행명", number: "계좌번호", holder: "고태혁" },
-      { role: "아버지", bank: "은행명", number: "계좌번호", holder: "고명덕" },
-      { role: "어머니", bank: "은행명", number: "계좌번호", holder: "정효임" },
+      { role: "신랑", bank: "새마을금고", number: "9003272780615", holder: "고태혁" },
+      { role: "아버지", bank: "카카오뱅크", number: "3333204418514", holder: "고명덕" },
+      { role: "어머니", bank: "우리은행", number: "1002350193573", holder: "정효임" },
     ],
     bride: [
       { role: "신부", bank: "은행명", number: "계좌번호", holder: "김서아" },
@@ -104,9 +98,6 @@ const WEDDING_CONTENT = {
   // ── 하객 사진 공유 섹션 안내 문구 ─────────────────────────
   guestPhotoMessage: "소중한 순간을 함께 나눠주세요.\n찍어주신 사진을 이곳에 올려주시면\n신랑신부가 소중히 간직하겠습니다.",
 
-  // ── 연애 타임라인 서브타이틀 ─────────────────────────────
-  // \n은 줄바꿈입니다
-  timelineSubtitle: "저희 연애의 타임라인입니다\n행복한 추억이 가득한 N년",
 
   // ── 연애 타임라인 ─────────────────────────────────────────
   //
@@ -126,35 +117,21 @@ const WEDDING_CONTENT = {
   timeline: [
     {
       date: "어린 시절",
-      icon: "🌱",
       title: "운명의 짝꿍을 기다리던 어린시절",
-      description: "설명을 입력해주세요",
       photo: "",
     },
     {
-      date: "00년 0월, 첫만남",
-      icon: "",
-      title: "첫만남",
-      description: "처음 만난 날의\n설명을 입력해주세요",
+      date: "21년 4월 11일, 연애 시작",
+      title: "우리 사랑하게 됐어요",
       photo: "",
     },
     {
-      type: "milestone",
-      badge: "연애 기간 0,000일",
-      icon: "🥂",
-      title: "행복했던 N년",
-      description: "우리의 소중한 시간",
-    },
-    {
-      date: "00년 0월, 프로포즈",
-      icon: "💍",
-      title: "프로포즈",
-      description: "영원을 약속한 날의\n설명을 입력해주세요",
+      date: "25년 7월 12일, 프로포즈",
+      title: "영원을 약속한 날",
       photo: "",
     },
     {
       date: "26년 7월 5일, 결혼",
-      icon: "🤵👰",
       title: "웨딩데이",
       description: "이제는 둘이 아닌\n하나로 걷기 시작하는 날",
       photo: "",
@@ -165,7 +142,7 @@ const WEDDING_CONTENT = {
   // 1. Cloudinary에 1200×630 사이즈 이미지를 업로드하세요
   //    (캔바/피그마로 커플 사진 + 날짜 넣은 이미지를 만들면 좋아요)
   // 2. Cloudinary에서 해당 이미지의 URL을 복사해 붙여넣으세요
-  ogImageUrl: "https://my-wedding-card.pages.dev/images/We%E2%80%99re%20getting%20married!.webp", // 완벽한 카카오톡 공유를 위해 절대 주소로 설정했습니다.
+  ogImageUrl: "https://my-wedding-card.pages.dev/images/OG.webp", // 완벽한 카카오톡 공유를 위해 절대 주소로 설정했습니다.
   ogTitle: "고태혁 ♥ 김서아 결혼합니다 💍",              // 공유 제목 (비워두면 "신랑 ♥ 신부 결혼합니다" 로 자동 설정됩니다)
   ogDescription: "2026년 7월 5일 일요일 오후 1시 20분 | 까사그랑데센트로",
 

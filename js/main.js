@@ -26,8 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 창에 보이는 이미지 설정
   const windowImgCont = document.getElementById('letter-window-img');
   if (windowImgCont && C.heroPhoto) {
-    const imgUrl = (C.heroPhoto.includes('/') || C.heroPhoto.includes('.')) ? C.heroPhoto : `https://lh3.googleusercontent.com/d/${C.heroPhoto}`;
-    windowImgCont.innerHTML = `<img src="${imgUrl}" alt="Couple">`;
+    windowImgCont.innerHTML = `<img src="${C.heroPhoto}" alt="Couple">`;
   }
 
   // 달력 렌더링 (Mon ~ Sun)
@@ -156,11 +155,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (parkingNoticeEl && C.parkingNotice) {
     parkingNoticeEl.textContent = C.parkingNotice;
   }
-
   // ── 연애 타임라인 ─────────────────────────────────────────
   const timelineSubtitleEl = document.getElementById('timeline-subtitle');
   if (timelineSubtitleEl && C.timelineSubtitle) {
-    timelineSubtitleEl.innerHTML = C.timelineSubtitle.replace(/\n/g, '<br>');
+    timelineSubtitleEl.innerHTML = parseHighlight(C.timelineSubtitle);
   }
 
   const timelineList = document.getElementById('timeline-list');
@@ -168,33 +166,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let photoSide = 'left';
 
     C.timeline.forEach(item => {
-      // 마일스톤 항목
+      // 마일스톤 항목 (중앙 강조) - 디자인 통일성을 위해 렌더링하지 않고 건너뜁니다.
       if (item.type === 'milestone') {
-        const el = document.createElement('div');
-        el.className = 'tl-milestone';
-        el.innerHTML = `
-          <div class="tl-milestone-badge">${item.badge || item.date || ''}</div>
-          <div class="tl-milestone-body">
-            <div class="tl-milestone-title">${item.icon ? item.icon + ' ' : ''}${item.title}</div>
-            <div class="tl-milestone-desc">${item.description.replace(/\n/g, '<br>')}</div>
-          </div>`;
-        timelineList.appendChild(el);
-        return; // 좌우 교차에 영향 없음
+        return; // 좌우 교차에 영향 없이 조용히 넘어갑니다.
       }
-
-      // 날짜 배지
-      const badge = document.createElement('div');
-      badge.className = 'tl-date-badge';
-      badge.innerHTML = `<span class="tl-date-badge-inner">${item.date}</span>`;
-      timelineList.appendChild(badge);
 
       // 사진 HTML
       let photoContent = '';
       if (item.photo) {
-        const photoUrl = (item.photo.includes('/') || item.photo.includes('.'))
-          ? item.photo
-          : `https://lh3.googleusercontent.com/d/${item.photo}`;
-        photoContent = `<img src="${photoUrl}" alt="${item.title}" class="tl-img" loading="lazy">`;
+        photoContent = `<img src="${item.photo}" alt="${item.title}" class="tl-img" loading="lazy">`;
       } else {
         photoContent = `<div class="tl-img-placeholder">📷</div>`;
       }
@@ -206,11 +186,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const photoCol = `<div class="tl-photo-col">${photoContent}</div>`;
       const lineCol = `<div class="tl-line-col"><div class="tl-dot"></div></div>`;
       const textCol = `<div class="tl-text-col">
+        ${item.date ? `<span class="tl-date-sub">${parseHighlight(item.date)}</span>` : ''}
         <div class="tl-title-row">
           ${item.icon ? `<span class="tl-icon">${item.icon}</span>` : ''}
-          <span class="tl-title">${item.title}</span>
+          <span class="tl-title">${parseHighlight(item.title)}</span>
         </div>
-        <p class="tl-desc">${item.description.replace(/\n/g, '<br>')}</p>
+        <p class="tl-desc">${parseHighlight(item.description)}</p>
       </div>`;
 
       div.innerHTML = side === 'left'
@@ -257,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <span class="account-bank">${acc.bank}</span>
           <span class="account-number">${acc.number}</span>
         </div>
-        <button class="copy-btn" data-number="${acc.number}">복사하기</button>`;
+        <button class="copy-btn" data-bank="${acc.bank}" data-number="${acc.number}">복사하기</button>`;
       panel.appendChild(row);
     });
 
@@ -279,7 +260,8 @@ document.addEventListener('DOMContentLoaded', () => {
   accountsList.addEventListener('click', e => {
     const btn = e.target.closest('.copy-btn');
     if (!btn) return;
-    navigator.clipboard.writeText(btn.dataset.number).then(() => {
+    const copyText = `${btn.dataset.bank} ${btn.dataset.number}`;
+    navigator.clipboard.writeText(copyText).then(() => {
       btn.textContent = '복사됨!';
       btn.classList.add('copied');
       setTimeout(() => {
@@ -462,6 +444,15 @@ window.addEventListener('load', async () => {
   });
 });
 // ── 유틸 함수 ──────────────────────────────────────────────
+
+// 마크다운 형식(*텍스트* 또는 **텍스트**)을 감지하여 형광펜 클래스(.tl-highlight)를 가진 span 태그로 감싸고, \n을 <br>로 변환
+function parseHighlight(text) {
+  if (!text) return '';
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<span class="tl-highlight">$1</span>')
+    .replace(/\*(.*?)\*/g, '<span class="tl-highlight">$1</span>')
+    .replace(/\n/g, '<br>');
+}
 
 // 줄바꿈(\n)을 <br>로 변환해서 출력
 function setMultiline(id, text) {

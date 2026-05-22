@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
       mapContainer.style.alignItems = 'center';
       mapContainer.style.justifyContent = 'center';
       mapContainer.style.fontSize = '12px';
-      mapContainer.style.color = '#888';
+      mapContainer.style.color = 'var(--color-text-muted)';
       mapContainer.innerText = '카카오맵을 불러올 수 없습니다. 도메인 설정을 확인해주세요.';
     }
   }
