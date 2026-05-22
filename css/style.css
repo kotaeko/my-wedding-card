@@ -1347,7 +1347,7 @@ body.loaded .phone-frame {
 
 .main-polaroid img {
   width: 100%;
-  aspect-ratio: 3/4; /* 사진 비율을 세로형으로 깔끔하게 통일하여 안정감 부여 */
+  aspect-ratio: 2/3; /* 사진 비율을 2:3(4000x6000)으로 맞춰 세로 잘림을 방지 */
   object-fit: cover;
   object-position: center center;
   display: block;
