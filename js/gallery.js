@@ -102,12 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (emptyMsg) emptyMsg.style.display = 'block';
       if (mainCard) mainCard.style.display = 'none';
       if (thumbsRow) thumbsRow.parentElement.style.display = 'none';
-      
-      // 네비게이션 버튼도 숨김
-      const btnPrev = document.getElementById('gallery-prev');
-      const btnNext = document.getElementById('gallery-next');
-      if (btnPrev) btnPrev.style.display = 'none';
-      if (btnNext) btnNext.style.display = 'none';
     } else {
       // 첫 번째 사진을 기본 활성화
       setActivePhoto(0);
@@ -145,24 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }
         }, { passive: true });
-      }
-
-      // ── 좌우 내비게이션 버튼 이벤트 바인딩 ──
-      const btnPrev = document.getElementById('gallery-prev');
-      const btnNext = document.getElementById('gallery-next');
-
-      if (btnPrev) {
-        btnPrev.addEventListener('click', (e) => {
-          e.stopPropagation(); // 클릭 시 상위 요소(메인 카드)의 라이트박스 실행 방지
-          setActivePhoto(currentActiveIndex - 1);
-        });
-      }
-
-      if (btnNext) {
-        btnNext.addEventListener('click', (e) => {
-          e.stopPropagation(); // 클릭 시 상위 요소(메인 카드)의 라이트박스 실행 방지
-          setActivePhoto(currentActiveIndex + 1);
-        });
       }
     }
   };
