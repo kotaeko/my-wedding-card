@@ -6,7 +6,7 @@ let lbIndex   = 0;
 let currentActiveIndex = 0;
 
 // 메인 사진 변경 및 썸네일 활성화 상태/가로스크롤 동기화 함수
-function setActivePhoto(index) {
+function setActivePhoto(index, isInitial = false) {
   if (allPhotos.length === 0) return;
   currentActiveIndex = (index + allPhotos.length) % allPhotos.length;
   lbIndex = currentActiveIndex; // 라이트박스 인덱스 동기화
@@ -34,8 +34,10 @@ function setActivePhoto(index) {
   thumbs.forEach((thumb, idx) => {
     if (idx === currentActiveIndex) {
       thumb.classList.add('active');
-      // 활성화된 썸네일이 화면 중앙으로 오도록 부드럽게 스크롤
-      thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      // 활성화된 썸네일이 화면 중앙으로 오도록 부드럽게 스크롤 (초기화 단계에서는 스크롤 스킵)
+      if (!isInitial) {
+        thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
     } else {
       thumb.classList.remove('active');
     }
@@ -103,8 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (mainCard) mainCard.style.display = 'none';
       if (thumbsRow) thumbsRow.parentElement.style.display = 'none';
     } else {
-      // 첫 번째 사진을 기본 활성화
-      setActivePhoto(0);
+      // 첫 번째 사진을 기본 활성화 (처음 로드할 때는 스크롤이동 스킵)
+      setActivePhoto(0, true);
       
       // 메인 큰 사진 클릭 시 라이트박스 실행
       if (mainCard) {
