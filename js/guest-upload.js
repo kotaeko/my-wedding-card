@@ -122,6 +122,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       img.src = data.downloadUrl;
       img.alt = `${data.uploaderName}님의 사진`;
       img.loading = 'lazy';
+      img.draggable = false;
+      img.addEventListener('contextmenu', e => e.preventDefault());
+      img.addEventListener('dragstart',   e => e.preventDefault());
 
       const caption = document.createElement('p');
       caption.className = 'guest-item-name';

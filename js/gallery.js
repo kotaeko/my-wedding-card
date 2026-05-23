@@ -164,6 +164,11 @@ document.addEventListener('DOMContentLoaded', () => {
           openLightbox(currentActiveIndex);
         });
         preventSave(mainCard);
+        
+        const mainImg = document.getElementById('gallery-main-img');
+        if (mainImg) {
+          preventSave(mainImg);
+        }
 
         // ── 메인 사진 터치 스와이프 (슬라이딩) 제스처 추가 ──
         let swipeStartX = 0;
