@@ -429,8 +429,8 @@ window.addEventListener('load', async () => {
   // 1) 웹폰트가 완전히 적용될 때까지 대기
   await document.fonts.ready;
 
-  // 2) 첫 레이아웃·페인트가 완전히 안정화되도록 추가 대기
-  await new Promise(resolve => setTimeout(resolve, 700));
+  // 2) 첫 레이아웃·페인트가 완전히 안정화되도록 추가 대기 (1.8초로 늘려 기기 부담 완화)
+  await new Promise(resolve => setTimeout(resolve, 1800));
 
   // 3) 페인트 사이클 시작점에서 전환 (프레임 찢김 방지)
   requestAnimationFrame(() => {

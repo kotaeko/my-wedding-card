@@ -19,13 +19,35 @@ function setActivePhoto(index, isInitial = false) {
       mainImg.style.opacity = '0';
       mainImg.setAttribute('data-current-src', targetUrl);
 
-      // 이미지가 다운로드 완료된 후 페이드인 되도록 처리하여 백색 깜빡임(Flicker) 원천 차단
+      // 이미지가 다운로드 및 디코딩 완료된 후 페이드인 되도록 처리하여 백색 깜빡임(Flicker) 및 버벅임(Stutter) 원천 차단
       const tempImg = new Image();
-      tempImg.onload = () => {
-        mainImg.src = targetUrl;
-        mainImg.style.opacity = '1';
-      };
       tempImg.src = targetUrl;
+      tempImg.decoding = 'async';
+
+      // 브라우저의 비동기 디코딩 API(decode) 활용으로 백그라운드 스레드에서 압축 해제 후 메모리 적재
+      if (typeof tempImg.decode === 'function') {
+        tempImg.decode()
+          .then(() => {
+            if (mainImg.getAttribute('data-current-src') === targetUrl) {
+              mainImg.src = targetUrl;
+              mainImg.style.opacity = '1';
+            }
+          })
+          .catch(() => {
+            if (mainImg.getAttribute('data-current-src') === targetUrl) {
+              mainImg.src = targetUrl;
+              mainImg.style.opacity = '1';
+            }
+          });
+      } else {
+        // 구형 브라우저용 폴백 (onload)
+        tempImg.onload = () => {
+          if (mainImg.getAttribute('data-current-src') === targetUrl) {
+            mainImg.src = targetUrl;
+            mainImg.style.opacity = '1';
+          }
+        };
+      }
     }
   }
 
@@ -49,13 +71,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const thumbsRow = document.getElementById('gallery-thumbs-scroll');
   const emptyMsg  = document.getElementById('gallery-empty');
 
-  const checkImageExists = (url) => {
-    return new Promise(resolve => {
-      const img = new Image();
-      img.onload = () => resolve(true);
-      img.onerror = () => resolve(false);
-      img.src = url;
-    });
+  const checkImageExists = async (url) => {
+    try {
+      // HTTP HEAD 메서드를 활용하여 데이터 본문 없이 신속하게 실존 여부 확인
+      const response = await fetch(url, { method: 'HEAD' });
+      return response.ok;
+    } catch (e) {
+      // CORS 또는 로컬 개발 환경 오동작 시 기존 가벼운 이미지 온로드 방식으로 안전한 폴백 제공
+      return new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = url;
+      });
+    }
   };
 
   // 최대 50장까지 비동기 병렬 확인하며 썸네일 생성
@@ -79,13 +108,34 @@ document.addEventListener('DOMContentLoaded', () => {
         thumb.className = 'thumb-item';
         
         const img = document.createElement('img');
-        img.src       = item.url;
+        // data-src 속성에 경로만 기록해 두고 실제 노출 직전에만 로드 유발
+        img.setAttribute('data-src', item.url);
         img.alt       = `사진 미리보기 ${item.index}`;
-        img.loading   = 'lazy';
+        img.decoding  = 'async';
         img.draggable = false;
         preventSave(img);
         
         thumb.appendChild(img);
+
+        // IntersectionObserver를 이용한 썸네일 가로 트랙 내 초정밀 개별 지연 로딩
+        if ('IntersectionObserver' in window) {
+          const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const lazyImg = entry.target;
+                lazyImg.src = lazyImg.getAttribute('data-src');
+                obs.unobserve(lazyImg);
+              }
+            });
+          }, {
+            root: thumbsRow,
+            rootMargin: '0px 150px 0px 150px' // 가로 스크롤 시 화면 진입 150px 전에 안전 로드 시작
+          });
+          observer.observe(img);
+        } else {
+          // 폴백: 구형 브라우저는 즉시 이미지 로드
+          img.src = item.url;
+        }
         
         const currentIndex = allPhotos.length - 1;
         thumb.addEventListener('click', () => {
@@ -145,13 +195,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Window load 이후에 갤러리 탐색을 시작하여, 초기 봉투 로딩 및 화면 렌더링 지연을 원천 차단합니다.
+  // Window load 이후 초기 안정화(1초)를 추가로 거친 뒤 갤러리 탐색을 시작하여 리소스 충돌 차단
   if (document.readyState === 'complete') {
-    initGallery();
+    setTimeout(initGallery, 1000);
   } else {
     window.addEventListener('load', () => {
-      // 50ms 대기하여 로딩 페이드아웃 및 초기 애니메이션이 자연스럽게 시작하도록 유도
-      setTimeout(initGallery, 50);
+      // 1000ms 대기하여 오버레이 페이드아웃 및 봉투 로딩이 완벽하게 정착된 후 탐색 시작
+      setTimeout(initGallery, 1000);
     });
   }
 });

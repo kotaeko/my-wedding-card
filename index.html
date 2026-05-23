@@ -137,7 +137,7 @@
                 <!-- 메인 큰 폴라로이드 사진 -->
                 <div class="gallery-main-wrap">
                   <div class="polaroid-card main-polaroid" id="gallery-main-card">
-                    <img id="gallery-main-img" src="" alt="갤러리 메인 사진" draggable="false">
+                    <img id="gallery-main-img" src="" alt="갤러리 메인 사진" draggable="false" loading="lazy" decoding="async">
                   </div>
                 </div>
                 
@@ -209,7 +209,8 @@
             </defs>
             <!-- 봉투 베이스 배경색 (미니멀 화이트 계열) -->
             <rect width="100%" height="100%" fill="#ffffff" mask="url(#hole-mask)" />
-            <rect width="100%" height="100%" fill="transparent" style="filter:url(#noise); mix-blend-mode: multiply;" mask="url(#hole-mask)" />
+            <!-- 모바일 렌더링 최적화를 위해 실시간 SVG 노이즈 필터 레이어 비활성화 -->
+            <!-- <rect width="100%" height="100%" fill="transparent" style="filter:url(#noise); mix-blend-mode: multiply;" mask="url(#hole-mask)" /> -->
           </svg>
           
           <!-- Ribbon Overlay (블랙 리본) -->

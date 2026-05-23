@@ -200,7 +200,6 @@ body.loaded .phone-frame {
   aspect-ratio: 3.4 / 5.2;
   z-index: 20;
 }
-
 /* Envelope Back */
 .envelope-back {
   position: absolute;
@@ -219,8 +218,9 @@ body.loaded .phone-frame {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
   transition: transform 2.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0s;
   /* 다시 올라올 때는 딜레이/트랜지션 없이 투명도 0(완전 불투명) 적용 */
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
 }
-
 /* 튀어나온 편지지 & 래퍼 */
 .letter-scroll-wrapper {
   position: relative;
@@ -232,7 +232,6 @@ body.loaded .phone-frame {
   z-index: 2;
   border-radius: 4px;
 }
-
 .main-letter {
   background: #ffffff;
   width: 100%;
@@ -241,6 +240,8 @@ body.loaded .phone-frame {
   transition: transform 2.2s cubic-bezier(0.25, 1, 0.5, 1);
   padding-bottom: 60px;
   will-change: transform;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
 }
 
 /* Envelope Front */
@@ -258,6 +259,8 @@ body.loaded .phone-frame {
   /* 봉투 상단 경계선을 살리기 위한 상향 음영(-3px)과 전체적인 큰 볼륨감(16px)을 다중으로 적용 */
   filter: drop-shadow(0 -3px 12px rgba(0, 0, 0, 0.08)) drop-shadow(0 8px 16px rgba(0, 0, 0, 0.06));
   transition: transform 2.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0s;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
 }
 
 .env-mask-svg {
