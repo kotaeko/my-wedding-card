@@ -92,8 +92,10 @@ const WEDDING_CONTENT = {
   // ── 연락처 ───────────────────────────────────────────────
   groomPhone: "010-5013-9690",
   bridePhone: "010-5270-5736",
-  groomMotherPhone: "",             // 없으면 빈칸 ""
-  brideMotherPhone: "",
+  groomFatherPhone: "010-3340-9690",             // 없으면 빈칸 ""
+  groomMotherPhone: "010-5781-9690",             // 없으면 빈칸 ""
+  brideFatherPhone: "010-5290-5735",             // 없으면 빈칸 ""
+  brideMotherPhone: "010-4025-5735",
 
 
   // ── 연애 타임라인 ─────────────────────────────────────────

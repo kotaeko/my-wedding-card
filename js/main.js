@@ -206,19 +206,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ── 계좌번호 (탭 방식) ───────────────────────────────────
+  // ── 축하의 마음 및 연락처 (아코디언 토글 방식) ─────────────
   const accountsList = document.getElementById('accounts-list');
   const accs = C.accounts;
 
-  // 탭 바
+  // 탭 바 생성
   const tabBar = document.createElement('div');
   tabBar.className = 'account-tab-bar';
   tabBar.innerHTML = `
-    <button class="account-tab active" data-side="groom">신랑측에게</button>
-    <button class="account-tab" data-side="bride">신부측에게</button>`;
+    <button class="account-tab active" data-side="groom">신랑측</button>
+    <button class="account-tab" data-side="bride">신부측</button>`;
   accountsList.appendChild(tabBar);
 
-  // 탭 패널 생성
+  // 탭 패널 및 아코디언 카드 생성
   ['groom', 'bride'].forEach(side => {
     const panel = document.createElement('div');
     panel.className = 'account-panel';
@@ -227,19 +227,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
     (accs[side] || []).forEach(acc => {
       if (!acc.number) return;
-      const row = document.createElement('div');
-      row.className = 'account-row';
-      row.innerHTML = `
-        <div class="account-left">
-          <span class="account-role">${acc.role}</span>
-          <span class="account-holder-name">${acc.holder}</span>
+
+      // 이름 기준 연락처 매칭
+      let phone = "";
+      if (side === 'groom') {
+        if (acc.role === "신랑" || acc.holder === C.groomName) phone = C.groomPhone;
+        else if (acc.role === "아버지" || acc.holder === C.groomFather) phone = C.groomFatherPhone;
+        else if (acc.role === "어머니" || acc.holder === C.groomMother) phone = C.groomMotherPhone;
+      } else if (side === 'bride') {
+        if (acc.role === "신부" || acc.holder === C.brideName) phone = C.bridePhone;
+        else if (acc.role === "아버지" || acc.holder === C.brideFather) phone = C.brideFatherPhone;
+        else if (acc.role === "어머니" || acc.holder === C.brideMother) phone = C.brideMotherPhone;
+      }
+
+      const card = document.createElement('div');
+      card.className = 'profile-accordion-card';
+
+      let detailsHtml = '';
+      
+      // 계좌 번호 줄
+      detailsHtml += `
+        <div class="info-detail-item">
+          <div class="info-detail-left">
+            <span class="info-detail-label">🏦 계좌번호</span>
+            <span class="info-detail-val">${acc.bank} <span class="num-highlight">${acc.number}</span></span>
+          </div>
+          <button class="action-btn copy-account-btn" data-bank="${acc.bank}" data-number="${acc.number}">계좌 복사</button>
         </div>
-        <div class="account-right">
-          <span class="account-bank">${acc.bank}</span>
-          <span class="account-number">${acc.number}</span>
+      `;
+
+      // 휴대폰 번호 줄 (데이터가 있을 때만 노출)
+      if (phone) {
+        detailsHtml += `
+          <div class="info-detail-item">
+            <div class="info-detail-left">
+              <span class="info-detail-label">📱 연락처</span>
+              <span class="info-detail-val">${phone}</span>
+            </div>
+            <button class="action-btn copy-phone-btn" data-phone="${phone}">번호 복사</button>
+          </div>
+        `;
+      }
+
+      card.innerHTML = `
+        <div class="profile-header">
+          <div class="profile-meta">
+            <span class="profile-role">${acc.role}</span>
+            <span class="profile-name">${acc.holder}</span>
+          </div>
+          <button class="toggle-trigger-btn" aria-label="상세 정보 보기">
+            <svg class="toggle-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
         </div>
-        <button class="copy-btn" data-bank="${acc.bank}" data-number="${acc.number}">복사하기</button>`;
-      panel.appendChild(row);
+        <div class="profile-details">
+          <div class="profile-details-inner">
+            ${detailsHtml}
+          </div>
+        </div>
+      `;
+
+      panel.appendChild(card);
     });
 
     accountsList.appendChild(panel);
@@ -253,40 +302,74 @@ document.addEventListener('DOMContentLoaded', () => {
     tab.classList.add('active');
     accountsList.querySelectorAll('.account-panel').forEach(p => {
       p.style.display = p.dataset.side === tab.dataset.side ? 'block' : 'none';
+      // 탭 전환 시 기존 열려있던 아코디언 카드들을 부드럽게 닫아 레이아웃 흔들림 방지
+      p.querySelectorAll('.profile-accordion-card').forEach(card => {
+        card.classList.remove('is-active');
+        const details = card.querySelector('.profile-details');
+        if (details) details.style.maxHeight = '0px';
+      });
     });
   });
 
-  // 복사 버튼 이벤트
+  // 아코디언 토글 핸들링
   accountsList.addEventListener('click', e => {
-    const btn = e.target.closest('.copy-btn');
-    if (!btn) return;
-    const copyText = `${btn.dataset.bank} ${btn.dataset.number}`;
-    navigator.clipboard.writeText(copyText).then(() => {
-      btn.textContent = '복사됨!';
-      btn.classList.add('copied');
-      setTimeout(() => {
-        btn.textContent = '복사하기';
-        btn.classList.remove('copied');
-      }, 2000);
+    const header = e.target.closest('.profile-header');
+    if (!header) return;
+    
+    const card = header.closest('.profile-accordion-card');
+    if (!card) return;
+
+    const details = card.querySelector('.profile-details');
+    const isActive = card.classList.contains('is-active');
+
+    // 다른 모든 열려있는 카드 닫기 (아코디언 동작)
+    card.parentElement.querySelectorAll('.profile-accordion-card').forEach(otherCard => {
+      if (otherCard !== card && otherCard.classList.contains('is-active')) {
+        otherCard.classList.remove('is-active');
+        const otherDetails = otherCard.querySelector('.profile-details');
+        if (otherDetails) otherDetails.style.maxHeight = '0px';
+      }
     });
+
+    if (isActive) {
+      card.classList.remove('is-active');
+      if (details) details.style.maxHeight = '0px';
+    } else {
+      card.classList.add('is-active');
+      if (details) details.style.maxHeight = details.scrollHeight + 'px';
+    }
   });
 
-  // ── 연락처 ───────────────────────────────────────────────
-  const contactList = document.getElementById('contact-list');
-  const contacts = [
-    { label: `신랑 ${C.groomName}`, phone: C.groomPhone },
-    { label: `신부 ${C.brideName}`, phone: C.bridePhone },
-    { label: `신랑 어머니 ${C.groomMother}`, phone: C.groomMotherPhone },
-    { label: `신부 어머니 ${C.brideMother}`, phone: C.brideMotherPhone },
-  ];
-  contacts.forEach(ct => {
-    if (!ct.phone) return;
-    const div = document.createElement('div');
-    div.className = 'contact-item';
-    div.innerHTML = `
-      <span class="contact-label">${ct.label}</span>
-      <a href="tel:${ct.phone.replace(/-/g, '')}" class="contact-call-btn">📞 ${ct.phone}</a>`;
-    contactList.appendChild(div);
+  // 복사 기능 통합 핸들러
+  accountsList.addEventListener('click', e => {
+    // 1) 계좌 복사
+    const copyAccBtn = e.target.closest('.copy-account-btn');
+    if (copyAccBtn) {
+      const copyText = `${copyAccBtn.dataset.bank} ${copyAccBtn.dataset.number}`;
+      navigator.clipboard.writeText(copyText).then(() => {
+        copyAccBtn.textContent = '복사됨!';
+        copyAccBtn.classList.add('copied');
+        setTimeout(() => {
+          copyAccBtn.textContent = '계좌 복사';
+          copyAccBtn.classList.remove('copied');
+        }, 2000);
+      });
+      return;
+    }
+
+    // 2) 휴대폰 번호 복사
+    const copyPhoneBtn = e.target.closest('.copy-phone-btn');
+    if (copyPhoneBtn) {
+      const copyText = copyPhoneBtn.dataset.phone;
+      navigator.clipboard.writeText(copyText).then(() => {
+        copyPhoneBtn.textContent = '복사됨!';
+        copyPhoneBtn.classList.add('copied');
+        setTimeout(() => {
+          copyPhoneBtn.textContent = '번호 복사';
+          copyPhoneBtn.classList.remove('copied');
+        }, 2000);
+      });
+    }
   });
 
   // ── 푸터 ─────────────────────────────────────────────────

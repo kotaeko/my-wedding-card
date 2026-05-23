@@ -1570,115 +1570,163 @@ body.loaded .phone-frame {
   font-weight: 600;
 }
 
-/* 계좌 행 */
-.account-row {
+/* 프로필 아코디언 카드 */
+.profile-accordion-card {
+  background: var(--color-bg);
+  border-radius: var(--radius-md, 8px);
+  margin-bottom: 12px;
+  border: 1px solid var(--color-divider);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.profile-accordion-card:hover {
+  border-color: var(--color-primary-light);
+  box-shadow: 0 4px 16px rgba(184, 149, 106, 0.06);
+}
+
+.profile-accordion-card.is-active {
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 20px rgba(184, 149, 106, 0.1);
+}
+
+/* 헤더 영역 */
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  cursor: pointer;
+  user-select: none;
+  background: var(--color-surface);
+  transition: background var(--transition);
+}
+
+.profile-header:hover {
+  background: rgba(184, 149, 106, 0.03);
+}
+
+.profile-meta {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--color-divider);
 }
 
-.account-row:last-child {
-  border-bottom: none;
+.profile-role {
+  font-size: 11px;
+  color: var(--color-text-soft);
+  background: rgba(184, 149, 106, 0.15);
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
 }
 
-.account-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 90px;
-}
-
-.account-role {
-  font-size: var(--fs-sm);
-  color: var(--color-text-muted);
-}
-
-.account-holder-name {
-  font-size: var(--fs-sm);
+.profile-name {
+  font-size: var(--fs-sm, 14px);
   font-weight: 600;
   color: var(--color-text);
+  letter-spacing: 0.05em;
 }
 
-.account-right {
+/* 화살표 토글 버튼 */
+.toggle-trigger-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--color-text-soft);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color var(--transition);
+}
+
+.profile-accordion-card.is-active .toggle-trigger-btn {
+  transform: rotate(180deg);
+  color: var(--color-primary);
+}
+
+.toggle-arrow-icon {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.2;
+}
+
+/* 세부 아코디언 패널 */
+.profile-details {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #ffffff;
+}
+
+.profile-details-inner {
+  padding: 8px 20px 20px;
+  border-top: 1px dashed var(--color-divider);
+}
+
+/* 상세 아이템 행 (계좌 / 연락처) */
+.info-detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+}
+
+.info-detail-item:not(:last-child) {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.info-detail-left {
   display: flex;
   flex-direction: column;
-  flex: 1;
-  gap: 2px;
+  align-items: flex-start;
+  gap: 4px;
+  text-align: left;
 }
 
-.account-bank {
-  font-size: var(--fs-xs);
+.info-detail-label {
+  font-size: 10px;
   color: var(--color-text-muted);
+  letter-spacing: 0.02em;
 }
 
-.account-number {
-  font-size: var(--fs-sm);
-  font-weight: 600;
+.info-detail-val {
+  font-size: 13px;
   color: var(--color-text);
   letter-spacing: 0.03em;
 }
 
-.copy-btn {
-  padding: 7px 12px;
-  border: 1px solid var(--color-divider);
-  border-radius: var(--radius-sm);
-  font-size: var(--fs-xs);
-  color: var(--color-text-soft);
-  flex-shrink: 0;
-  transition: background var(--transition), color var(--transition);
+.num-highlight {
+  font-weight: 600;
+  color: var(--color-text);
+  font-family: var(--font-serif);
 }
 
-.copy-btn:hover {
+/* 복사/액션 버튼 */
+.action-btn {
+  padding: 6px 12px;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-sm, 4px);
+  font-size: 11px;
+  color: var(--color-text-soft);
+  background: var(--color-bg);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+  transition: all var(--transition);
+}
+
+.action-btn:hover {
   background: var(--color-primary);
   border-color: var(--color-primary);
   color: #fff;
 }
 
-.copy-btn.copied {
+.action-btn.copied {
   background: var(--color-success);
   border-color: var(--color-success);
   color: #fff;
-}
-
-/* ── ⑧ 연락처 ───────────────────────────────────────────── */
-.section-contact {
-  background: var(--color-bg);
-}
-
-.contact-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.contact-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--color-bg);
-  border-radius: var(--radius-sm);
-  padding: 14px 16px;
-}
-
-.contact-label {
-  font-size: var(--fs-sm);
-  color: var(--color-text-soft);
-}
-
-.contact-call-btn {
-  padding: 8px 16px;
-  background: var(--color-primary);
-  color: #fff;
-  border-radius: var(--radius-sm);
-  font-size: var(--fs-xs);
-  letter-spacing: 0.05em;
-  transition: background var(--transition);
-}
-
-.contact-call-btn:hover {
-  background: var(--color-primary-hover);
 }
 
 /* ── 푸터 ───────────────────────────────────────────────── */
