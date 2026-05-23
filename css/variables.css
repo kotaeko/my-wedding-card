@@ -54,7 +54,7 @@
 
   /* ── 폰트 ──────────────────────────────────────────────── */
   --font-serif: 'Noto Serif KR', 'Georgia', serif;
-  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-display: 'Cormorant Garamond', 'Times New Roman', 'Noto Serif KR', serif;
 
   /* ── 글자 크기 ─────────────────────────────────────────── */
   --fs-xs: 12px;
