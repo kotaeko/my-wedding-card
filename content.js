@@ -52,7 +52,7 @@ const WEDDING_CONTENT = {
       label: "버스",
       detail: "<b>[건대로데오거리입구 정류장]</b> 하차 (도보 1분)<br>• 간선: 240, 721  / 지선: 2222, 2224"
     },
-    { icon: "🚗", label: "자가용", detail: "" },  // 추후 입력
+    { icon: "🚗", label: "주차", detail: "웨딩홀 내 기계식 주차 가능 (하객 2시간 무료주차)<br>• 만차시 주차요원의 안내에 따라 외부 주차장 이용가능" },  // 추후 입력
   ],
 
   // ── 초대 문구 ─────────────────────────────────────────────
@@ -83,9 +83,9 @@ const WEDDING_CONTENT = {
       { role: "어머니", bank: "우리은행", number: "1002350193573", holder: "정효임" },
     ],
     bride: [
-      { role: "신부", bank: "은행명", number: "계좌번호", holder: "김서아" },
-      { role: "아버지", bank: "은행명", number: "계좌번호", holder: "김일연" },
-      { role: "어머니", bank: "은행명", number: "계좌번호", holder: "이명희" },
+      { role: "신부", bank: "우리은행", number: "1002037551010", holder: "김서아" },
+      { role: "아버지", bank: "농협은행", number: "17802011136", holder: "김일연" },
+      { role: "어머니", bank: "우리은행", number: "1002034390407", holder: "이명희" },
     ],
   },
 
@@ -114,23 +114,22 @@ const WEDDING_CONTENT = {
   timeline: [
     {
       date: "어린 시절",
-      title: "운명의 짝꿍을 기다리던 어린시절",
+      title: "아직 서로를 모르던 시절\n각자의 세상에서 뛰놀던 우리",
       photo: "",
     },
     {
       date: "21년 4월 11일, 연애 시작",
-      title: "우리 사랑하게 됐어요",
+      title: "수많은 사람들 속에서도\n서로에게만 눈이 머물던 순간",
       photo: "",
     },
     {
       date: "25년 7월 12일, 프로포즈",
-      title: "영원을 약속한 날",
+      title: "사랑한다는 마음 끝에\n영원을 약속한 날",
       photo: "",
     },
     {
       date: "26년 7월 5일, 결혼",
-      title: "웨딩데이",
-      description: "이제는 둘이 아닌\n하나로 걷기 시작하는 날",
+      title: "이제는 둘이 아닌\n하나의 걸음으로",
       photo: "",
     },
   ],
