@@ -12,7 +12,6 @@ const WEDDING_CONTENT = {
 
   // ── 메인 화면(봉투 화면) 문구 ────────────────────────────
   // \n을 넣으면 줄바꿈이 됩니다. (영상의 텍스트를 기본값으로 넣어두었습니다)
-  heroTopText: "겨울이와 여름이의\n특별한 결혼식에 당신을 초대합니다.",
   heroMiddleText: "The Wedding of\n태혁 & 서아",
 
   // ── 이름 ─────────────────────────────────────────────────
@@ -46,7 +45,7 @@ const WEDDING_CONTENT = {
 
   // ── 교통 안내 (없으면 빈칸 "") ────────────────────────────
   transportInfo: [
-    { icon: "🚇", label: "지하철", detail: "<b>[건대입구역]</b> 하차 후 5번출구 (도보 2분)" },
+    { icon: "🚇", label: "지하철", detail: "<b>[2호선,7호선 건대입구역]</b> 하차 후 5번출구 (도보 2분)" },
     {
       icon: "🚌",
       label: "버스",
@@ -57,7 +56,7 @@ const WEDDING_CONTENT = {
 
   // ── 초대 문구 ─────────────────────────────────────────────
   // \n 은 줄바꿈입니다
-  mainMessage: `<div class="lyrics-section"><span class="lyrics-line">그냥 매일 손 잡고 걸을 수 있는 여유로운 저녁이 있는 것</span><span class="lyrics-line">지친 하루의 끝마다 돌아와 꼭 함께하는 것</span><span class="lyrics-line">잠시 마주앉아 서로 이야길 들어줄 수 있는 것</span><span class="lyrics-line">네가 늘 있는 것</span><span class="lyrics-author">- 슌 '내 꿈은 당신과 나태하게 사는 것' -</span></div>우리는 앞으로의 모든 날도 이렇게 걸어가려 합니다.\n내 꿈은 당신과 나태하게 사는 것 그 꿈을 함께 살아가겠습니다.`,
+  mainMessage: `<div class="lyrics-section"><span class="lyrics-line">그냥 매일 손 잡고 걸을 수 있는 여유로운 저녁이 있는 것</span><span class="lyrics-line">지친 하루의 끝마다 돌아와 꼭 함께하는 것</span><span class="lyrics-line">잠시 마주앉아 서로 이야길 들어줄 수 있는 것</span><span class="lyrics-line">네가 늘 있는 것</span><span class="lyrics-author">- 슌 '내 꿈은 당신과 나태하게 사는 것' -</span></div>우리는 앞으로의 모든 날도 이렇게 걸어가려 합니다.\n그 꿈을 이루며 함께 예쁘게 살아가겠습니다.`,
 
 
   // ── 표지(Hero) 사진 ───────────────────────────────────────

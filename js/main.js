@@ -76,7 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ── 초대의 글 ────────────────────────────────────────────
-  const parents = `${C.groomFather} · ${C.groomMother}의 아들 ${C.groomName}\n${C.brideFather} · ${C.brideMother}의 딸 ${C.brideName}`;
+  const groomShort = C.groomName.length === 3 ? C.groomName.substring(1) : C.groomName;
+  const brideShort = C.brideName.length === 3 ? C.brideName.substring(1) : C.brideName;
+  const parents = `${C.groomFather} · ${C.groomMother}의 아들 ${groomShort}\n${C.brideFather} · ${C.brideMother}의 딸 ${brideShort}`;
   setMultiline('invitation-parents', parents);
   setMultiline('invitation-message', C.mainMessage);
 
