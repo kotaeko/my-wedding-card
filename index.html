@@ -200,17 +200,9 @@
                 <circle cx="170" cy="0" r="30" fill="black" />
                 <rect x="70" y="150" width="200" height="200" fill="black" rx="2" />
               </mask>
-              <!-- 텍스처 노이즈 -->
-              <filter id="noise">
-                <!-- numOctaves를 1로 줄여서 모바일 버벅임(Stutter) 최적화 -->
-                <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="1" stitchTiles="stitch"/>
-                <feColorMatrix type="matrix" values="1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.04 0"/>
-              </filter>
             </defs>
             <!-- 봉투 베이스 배경색 (미니멀 화이트 계열) -->
             <rect width="100%" height="100%" fill="#ffffff" mask="url(#hole-mask)" />
-            <!-- 모바일 렌더링 최적화를 위해 실시간 SVG 노이즈 필터 레이어 비활성화 -->
-            <!-- <rect width="100%" height="100%" fill="transparent" style="filter:url(#noise); mix-blend-mode: multiply;" mask="url(#hole-mask)" /> -->
           </svg>
           
           <!-- Ribbon Overlay (블랙 리본) -->

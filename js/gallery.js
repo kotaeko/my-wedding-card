@@ -87,10 +87,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // 최대 50장까지 비동기 병렬 확인하며 썸네일 생성
+  // 최대 37장까지 비동기 병렬 확인하며 썸네일 생성
   const initGallery = async () => {
     const checks = [];
-    for (let i = 1; i <= 50; i++) {
+    for (let i = 1; i <= 37; i++) {
       const url = `images/갤러리/${i}.jpg`;
       checks.push(checkImageExists(url).then(exists => ({ index: i, url, exists })));
     }

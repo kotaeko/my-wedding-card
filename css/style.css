@@ -239,9 +239,6 @@ body.loaded .phone-frame {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   transition: transform 2.2s cubic-bezier(0.25, 1, 0.5, 1);
   padding-bottom: 60px;
-  will-change: transform;
-  backface-visibility: hidden;
-  transform: translate3d(0, 0, 0);
 }
 
 /* Envelope Front */
@@ -428,7 +425,6 @@ body.loaded .phone-frame {
   z-index: 5;
   /* 봉투 열림 시 부드럽게 아래로 내려가기 위한 모션 (사진과 여백 좁히기) */
   transition: transform 2.2s cubic-bezier(0.25, 1, 0.5, 1);
-  will-change: transform;
 }
 
 /* 봉투가 열리면 헤더(이름+달력)가 사진(아래) 쪽으로 부드럽게 30px 내려오며 중앙으로 집중됨 */
@@ -527,7 +523,6 @@ body.loaded .phone-frame {
   overflow: hidden;
   /* 봉투가 내려갈 때 사진이 부드럽게 위로 끌어올려지는 에어메이션 */
   transition: transform 2.2s cubic-bezier(0.25, 1, 0.5, 1);
-  will-change: transform;
 }
 
 /* 열렸을 때 사진을 위로 당겨 달력과의 공백을 좁힘 */
@@ -1340,7 +1335,6 @@ body.loaded .phone-frame {
   width: 320px;
   cursor: pointer;
   transition: transform var(--transition), box-shadow var(--transition);
-  will-change: transform;
 }
 
 .main-polaroid:hover {
@@ -1408,7 +1402,6 @@ body.loaded .phone-frame {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   border: 2px solid transparent;
   transition: opacity var(--transition), border-color var(--transition), transform var(--transition);
-  will-change: transform;
 }
 
 .thumb-item img {
