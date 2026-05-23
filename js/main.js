@@ -26,7 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // 창에 보이는 이미지 설정
   const windowImgCont = document.getElementById('letter-window-img');
   if (windowImgCont && C.heroPhoto) {
-    windowImgCont.innerHTML = `<img src="${C.heroPhoto}" alt="Couple">`;
+    windowImgCont.innerHTML = `
+      <img src="${C.heroPhoto}" alt="Couple" style="-webkit-touch-callout: none; -webkit-user-drag: none; user-select: none;">
+      <div class="photo-overlay"></div>
+    `;
   }
 
   // 달력 렌더링 (Mon ~ Sun)
@@ -202,9 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
       photoSide = photoSide === 'left' ? 'right' : 'left';
     });
   }
-
-  // ── 하객 사진 안내 문구 ───────────────────────────────────
-  setMultiline('guest-photo-message', C.guestPhotoMessage);
 
   // ── 계좌번호 (탭 방식) ───────────────────────────────────
   const accountsList = document.getElementById('accounts-list');

@@ -515,6 +515,7 @@ body.loaded .phone-frame {
 }
 
 .letter-window-img {
+  position: relative;
   width: 58.82%;
   aspect-ratio: 1 / 1;
   margin: 0 auto 30px;
@@ -1328,6 +1329,7 @@ body.loaded .phone-frame {
 
 /* 메인 큰 폴라로이드 카드 */
 .main-polaroid {
+  position: relative;
   background: var(--color-surface);
   padding: 10px 10px 48px; /* 아래 여백을 더 줘서 폴라로이드 느낌 극대화 */
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -1335,6 +1337,22 @@ body.loaded .phone-frame {
   width: 320px;
   cursor: pointer;
   transition: transform var(--transition), box-shadow var(--transition);
+}
+
+/* 이미지 터치/드래그 저장 방지 투명 오버레이 */
+.photo-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0); /* 터치 감지를 위해 투명하게 유지 */
+  pointer-events: auto;
+}
+
+.main-polaroid .photo-overlay {
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 48px;
 }
 
 .main-polaroid:hover {
@@ -1393,6 +1411,7 @@ body.loaded .phone-frame {
 
 /* 개별 썸네일 */
 .thumb-item {
+  position: relative;
   width: 64px;
   height: 64px;
   flex-shrink: 0;
@@ -1436,34 +1455,6 @@ body.loaded .phone-frame {
   text-align: center;
 }
 
-
-/* 하객 사진 그리드 */
-.gallery-grid.guest-gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3px;
-}
-
-.gallery-item {
-  aspect-ratio: 1;
-  overflow: hidden;
-  cursor: pointer;
-  position: relative;
-}
-
-.gallery-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  -webkit-user-drag: none;
-  -webkit-touch-callout: none; /* 꾹 눌러 저장 방지 (iOS) */
-  user-select: none;
-  transition: transform var(--transition);
-}
-
-.gallery-item:hover img {
-  transform: scale(1.05);
-}
 
 /* ── ⑤ 오시는 길 ────────────────────────────────────────── */
 .section-map {
@@ -1716,9 +1707,23 @@ body.loaded .phone-frame {
   flex-direction: column;
 }
 
+.lightbox-img-wrap {
+  position: relative;
+  display: inline-block;
+  max-width: min(85vw, 400px);
+  max-height: 70vh;
+}
+
+.lightbox-img-wrap .photo-overlay {
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 36px;
+}
+
 /* 폴라로이드 프레임 */
 .lightbox-img {
-  max-width: min(85vw, 400px);
+  max-width: 100%;
   max-height: 70vh;
   object-fit: contain;
   display: block;

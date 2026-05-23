@@ -117,6 +117,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         thumb.appendChild(img);
 
+        const overlay = document.createElement('div');
+        overlay.className = 'photo-overlay';
+        thumb.appendChild(overlay);
+
         // IntersectionObserver를 이용한 썸네일 가로 트랙 내 초정밀 개별 지연 로딩
         if ('IntersectionObserver' in window) {
           const observer = new IntersectionObserver((entries, obs) => {
