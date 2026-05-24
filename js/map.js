@@ -41,8 +41,37 @@ document.addEventListener('DOMContentLoaded', () => {
               map: map
           });
 
-          // 스크롤 시 지도가 확대/축소 되는 것을 방지
+          // 초기 상태: 지도 드래그 및 확대/축소 차단 (모바일 스크롤 간섭 방지)
+          map.setDraggable(false);
           map.setZoomable(false);
+
+          // 지도 조작 활성화 관련 요소 제어
+          const mapOverlay = document.getElementById('map-overlay');
+          const lockBtn = document.getElementById('btn-map-lock');
+
+          if (mapOverlay) {
+            mapOverlay.addEventListener('click', () => {
+              mapOverlay.classList.add('hide');
+              map.setDraggable(true);
+              map.setZoomable(true); // 조작 활성화 시에는 확대/축소 가능하게
+              if (lockBtn) {
+                lockBtn.style.display = 'flex';
+              }
+            });
+          }
+
+          if (lockBtn) {
+            lockBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              mapOverlay.classList.remove('hide');
+              map.setDraggable(false);
+              map.setZoomable(false);
+              lockBtn.style.display = 'none';
+              
+              // 원래 좌표(Casa Grande Centro 위치)로 지도 중심 재정렬
+              map.setCenter(coords);
+            });
+          }
       });
     });
   } else {
