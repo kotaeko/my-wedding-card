@@ -257,9 +257,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('lightbox-prev')?.addEventListener('click', () => lbGoTo(lbIndex - 1));
   document.getElementById('lightbox-next')?.addEventListener('click', () => lbGoTo(lbIndex + 1));
 
-  lb?.addEventListener('click', e => {
-    if (e.target === e.currentTarget) closeLightbox();
-  });
+  // 실수로 여백을 터치하여 닫히는 현상을 방지하기 위해 바깥 배경 클릭으로 닫히는 기능 비활성화 (X 버튼만으로 닫기 가능)
+  // lb?.addEventListener('click', e => {
+  //   if (e.target === e.currentTarget) closeLightbox();
+  // });
 
   document.addEventListener('keydown', e => {
     const isOpen = lb?.classList.contains('active');

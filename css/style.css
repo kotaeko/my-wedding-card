@@ -1785,11 +1785,25 @@ body.loaded .phone-frame {
   touch-action: none;
 }
 
-.lightbox-caption {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: var(--fs-sm);
+.lightbox-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px; /* 버튼과 페이지 표시 사이의 여백 */
   margin-top: var(--space-md);
+  z-index: 10;
+  width: 100%;
+}
+
+.lightbox-caption {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: var(--fs-sm);
+  margin-top: 0; /* 기존 마진 제거 */
   text-align: center;
+  font-family: var(--font-serif);
+  min-width: 60px; /* 숫자가 변할 때 레이아웃이 미세하게 흔들리는 것 방지 */
+  letter-spacing: 0.05em;
+  user-select: none;
 }
 
 .lightbox-close {
@@ -1802,6 +1816,9 @@ body.loaded .phone-frame {
   line-height: 1;
   z-index: 1;
   transition: color var(--transition);
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .lightbox-close:hover {
@@ -1809,32 +1826,40 @@ body.loaded .phone-frame {
 }
 
 .lightbox-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  position: static; /* 이전의 절대좌표 공중부양 배치 제거 */
+  transform: none;
   z-index: 1;
-  width: 44px;
-  height: 44px;
-  background: rgba(255, 255, 255, 0.15);
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 50%;
-  font-size: 28px;
   color: rgba(255, 255, 255, 0.85);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background var(--transition);
+  transition: background var(--transition), transform var(--transition);
+  border: none;
+  cursor: pointer;
+  padding: 0; /* 패딩 제로화로 정중앙 완벽 보장 */
+}
+
+.lightbox-arrow-svg {
+  width: 16px;
+  height: 16px;
+  display: block;
 }
 
 .lightbox-nav:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
 }
 
 .lightbox-prev {
-  left: 16px;
+  /* 기존 absolute 좌표 제거 */
 }
 
 .lightbox-next {
-  right: 16px;
+  /* 기존 absolute 좌표 제거 */
 }
 
 /* ── 데스크탑에서 핸드폰 형태 유지 ─────────────────────── */

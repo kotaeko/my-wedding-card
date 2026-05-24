@@ -5,7 +5,7 @@
 //   큰따옴표(" ") 안의 내용만 바꾸세요.
 //   따옴표 자체나 쉼표(,)는 건드리지 마세요.
 //
-// 저장 후 Netlify에 폴더를 다시 드래그하면 반영됩니다.
+
 // ============================================================
 
 const WEDDING_CONTENT = {
@@ -34,7 +34,7 @@ const WEDDING_CONTENT = {
   // ── 예식장 ───────────────────────────────────────────────
   venueName: "까사그랑데센트로",
   venueHall: "6층 에떼르노홀",
-  venueAddress: "서울 광진구 능동로 87 까사그랑데 센트로",
+  venueAddress: "서울 광진구 능동로 87 까사그랑데 센트로 6층",
   venueMapUrl: "https://kko.to/X1Sqw0bkv3",
   naverMapUrl: "https://naver.me/GhbuXbYP",
   venueLat: 37.5401399,
@@ -116,22 +116,22 @@ const WEDDING_CONTENT = {
     {
       date: "어린 시절",
       title: "아직 서로를 모르던 시절\n각자의 세상에서 뛰놀던 우리",
-      photo: "",
+      photo: "images/서아애기.jpg",
     },
     {
       date: "21년 4월 11일, 연애 시작",
       title: "수많은 사람들 속에서도\n서로에게만 눈이 머물던 순간",
-      photo: "",
+      photo: "images/연애시작.jpg",
     },
     {
       date: "25년 7월 12일, 프로포즈",
       title: "사랑한다는 마음 끝에\n영원을 약속한 날",
-      photo: "",
+      photo: "images/프로포즈.jpg",
     },
     {
       date: "26년 7월 5일, 결혼",
       title: "이제는 둘이 아닌\n하나의 걸음으로",
-      photo: "",
+      photo: "images/결혼.jpg",
     },
   ],
 
