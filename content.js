@@ -116,7 +116,7 @@ const WEDDING_CONTENT = {
     {
       date: "어린 시절",
       title: "아직 서로를 모르던 시절\n각자의 세상에서 뛰놀던 우리",
-      photo: "images/서아애기.jpg",
+      photo: "images/어릴적.jpg",
     },
     {
       date: "21년 4월 11일, 연애 시작",
