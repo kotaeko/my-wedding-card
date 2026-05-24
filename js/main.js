@@ -393,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isOpen || isAnimating) return;
       isOpen = true;
       isAnimating = true;
-      envelopeScene.classList.add('is-open');
+      envelopeScene.classList.add('is-open', 'is-animating');
 
       const bottomText = document.getElementById('hero-bottom-text');
       if (bottomText) bottomText.classList.add('fade-out');
@@ -417,6 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // 애니메이션 전체(2.2s) 종료 플래그
       setTimeout(() => {
         isAnimating = false;
+        envelopeScene.classList.remove('is-animating');
       }, 2200);
     };
 
@@ -437,6 +438,7 @@ document.addEventListener('DOMContentLoaded', () => {
         envBack.offsetHeight;
       }
 
+      envelopeScene.classList.add('is-animating');
       envelopeScene.classList.remove('is-open');
 
       const bottomText = document.getElementById('hero-bottom-text');
@@ -445,6 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.style.overflow = 'hidden';
       setTimeout(() => {
         isAnimating = false;
+        envelopeScene.classList.remove('is-animating');
       }, 2200);
     };
 
@@ -508,16 +511,46 @@ document.addEventListener('DOMContentLoaded', () => {
   initFadeIn();
 });
 
+// ── 이미지 사전 다운로드 및 GPU 디코딩 ────────────────────────────
+// 이미지가 화면에 그려지기 전에 GPU 메모리에 미리 로드하여 스터터 현상을 원천 차단합니다.
+function preloadAndDecodeImage(src) {
+  return new Promise((resolve) => {
+    if (!src) {
+      resolve();
+      return;
+    }
+    const img = new Image();
+    img.src = src;
+    img.decode()
+      .then(() => resolve(img))
+      .catch(() => {
+        // 디코딩 실패 시에도 로더가 무한 대기하지 않도록 무조건 처리 완료 처리
+        resolve();
+      });
+  });
+}
+
 // ── 화면 페이드인 (로딩 오버레이 → phone-frame 전환) ────────
-// window load + 폰트 렌더링 완료 + 안정화 대기 후 로딩 화면을 제거합니다.
+// 웹폰트 + 중요 이미지(메인 사진 & 리본)가 로드 및 디코딩 완료된 시점에 화면을 표시합니다.
 window.addEventListener('load', async () => {
-  // 1) 웹폰트가 완전히 적용될 때까지 대기
-  await document.fonts.ready;
+  // 1) 웹폰트 대기 시작
+  const fontPromise = document.fonts.ready;
 
-  // 2) 첫 레이아웃·페인트가 완전히 안정화되도록 추가 대기 (1.8초로 늘려 기기 부담 완화)
-  await new Promise(resolve => setTimeout(resolve, 1800));
+  // 2) 메인 사진 및 리본 이미지 디코딩 병렬 처리
+  const C = WEDDING_CONTENT;
+  const imagePromises = [];
+  if (C.heroPhoto) {
+    imagePromises.push(preloadAndDecodeImage(C.heroPhoto));
+  }
+  imagePromises.push(preloadAndDecodeImage('images/ribbon.webp'));
 
-  // 3) 페인트 사이클 시작점에서 전환 (프레임 찢김 방지)
+  // 3) 최소 시각 로딩 시간 확보 (너무 순식간에 지나가지 않도록 800ms)
+  const delayPromise = new Promise(resolve => setTimeout(resolve, 800));
+
+  // 모든 조건이 완료되면 페이드 오버레이 해제
+  await Promise.all([fontPromise, ...imagePromises, delayPromise]);
+
+  // 4) 페인트 사이클 시작점에서 전환 (프레임 찢김 방지)
   requestAnimationFrame(() => {
     document.body.classList.add('loaded');
     const overlay = document.getElementById('loading-overlay');

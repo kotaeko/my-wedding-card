@@ -348,6 +348,14 @@ body.loaded .phone-frame {
   transition: filter 0.1s;
 }
 
+/* 애니메이션 진행 중에는 무거운 drop-shadow 필터를 강제 제거하여 모바일 GPU 버벅임을 원천 차단합니다. */
+.envelope-scene.is-animating .envelope-front {
+  filter: none !important;
+}
+.envelope-scene.is-animating .ribbon-img {
+  filter: none !important;
+}
+
 /* SVG 내부의 노이즈 필터, 멀티플라이 속성도 함께 제거해 베이지색 GPU 찌꺼기 완벽 차단 */
 .envelope-scene.is-open .env-mask-svg rect[style*="mix-blend-mode"] {
   opacity: 0;
