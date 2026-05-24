@@ -47,14 +47,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
           // 지도 조작 활성화 관련 요소 제어
           const mapOverlay = document.getElementById('map-overlay');
+          let tipTimeout;
+
+          // 쓸기/드래그 감지 시 팁을 스마트하게 노출하는 함수
+          const showTip = () => {
+            if (mapOverlay && !mapOverlay.classList.contains('hide')) {
+              mapOverlay.classList.add('show-tip');
+              
+              // 3초 후 팁을 자동으로 서서히 숨김
+              clearTimeout(tipTimeout);
+              tipTimeout = setTimeout(() => {
+                mapOverlay.classList.remove('show-tip');
+              }, 3000);
+            }
+          };
 
           if (mapOverlay) {
-            // 지도를 터치/탭하면 투명 차단막을 걷어내고 조작을 활성화합니다.
+            // 지도를 터치/탭하면 투명 차단막을 걷어내고 즉시 조작을 활성화합니다.
             mapOverlay.addEventListener('click', (e) => {
               e.stopPropagation();
               mapOverlay.classList.add('hide');
+              mapOverlay.classList.remove('show-tip');
+              clearTimeout(tipTimeout);
               map.setDraggable(true);
               map.setZoomable(true);
+            });
+
+            // 드래그(쓸기) 시도 감지 (모바일: touchmove, 데스크톱: 마우스 왼쪽 버튼 누른 채 움직임)
+            mapOverlay.addEventListener('touchmove', showTip, { passive: true });
+            mapOverlay.addEventListener('mousemove', (e) => {
+              if (e.buttons === 1) { // 마우스 왼쪽 드래그 감지
+                showTip();
+              }
             });
           }
 
@@ -62,6 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
           const lockMap = () => {
             if (mapOverlay && mapOverlay.classList.contains('hide')) {
               mapOverlay.classList.remove('hide');
+              mapOverlay.classList.remove('show-tip');
+              clearTimeout(tipTimeout);
               map.setDraggable(false);
               map.setZoomable(false);
             }

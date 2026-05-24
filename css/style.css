@@ -714,12 +714,59 @@ body.loaded .phone-frame {
   position: absolute;
   inset: 0;
   background: transparent; /* 완전히 투명하게 설정하여 지도가 평소에는 그대로 노출됨 */
+  display: flex;
+  align-items: flex-end; /* 힌트 배지가 하단 중앙에 뜨도록 배치 */
+  justify-content: center;
   z-index: 10;
   cursor: pointer;
+  padding-bottom: 16px; /* 힌트 하단 간격 */
 }
 
 .map-overlay.hide {
   display: none; /* 활성화 시 터치 차단막을 완전히 없앰 */
+}
+
+.map-tooltip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.72); /* 텍스트 식별을 위한 적당한 어두움 */
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 50px;
+  color: #fff;
+  font-family: 'Noto Serif KR', serif;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: translateY(10px) scale(0.95);
+  pointer-events: none; /* 오버레이 클릭을 방해하지 않음 */
+  transition: opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1), transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.map-overlay.show-tip .map-tooltip {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.map-tooltip-icon {
+  color: #fff;
+  animation: mapPulse 2.0s infinite ease-in-out;
+  display: flex;
+  align-items: center;
+}
+
+@keyframes mapPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.7;
+  }
 }
 
 /* ── ⑤ 오시는 길 - 지도 버튼 ──────────────────────────── */
