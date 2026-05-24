@@ -47,31 +47,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
           // 지도 조작 활성화 관련 요소 제어
           const mapOverlay = document.getElementById('map-overlay');
-          const lockBtn = document.getElementById('btn-map-lock');
 
           if (mapOverlay) {
-            mapOverlay.addEventListener('click', () => {
+            // 지도를 터치/탭하면 투명 차단막을 걷어내고 조작을 활성화합니다.
+            mapOverlay.addEventListener('click', (e) => {
+              e.stopPropagation();
               mapOverlay.classList.add('hide');
               map.setDraggable(true);
-              map.setZoomable(true); // 조작 활성화 시에는 확대/축소 가능하게
-              if (lockBtn) {
-                lockBtn.style.display = 'flex';
-              }
+              map.setZoomable(true);
             });
           }
 
-          if (lockBtn) {
-            lockBtn.addEventListener('click', (e) => {
-              e.stopPropagation();
+          // 지도가 활성화 상태일 때, 다시 페이지를 스크롤하거나 외부를 터치하면 지도를 자동으로 잠급니다.
+          const lockMap = () => {
+            if (mapOverlay && mapOverlay.classList.contains('hide')) {
               mapOverlay.classList.remove('hide');
               map.setDraggable(false);
               map.setZoomable(false);
-              lockBtn.style.display = 'none';
-              
-              // 원래 좌표(Casa Grande Centro 위치)로 지도 중심 재정렬
-              map.setCenter(coords);
-            });
+            }
+          };
+
+          // 1. 청첩장 본문 페이지를 스크롤할 때 지도를 자동으로 다시 잠금
+          const scrollWrapper = document.getElementById('letter-scroll-wrapper');
+          if (scrollWrapper) {
+            scrollWrapper.addEventListener('scroll', lockMap, { passive: true });
           }
+
+          // 2. 지도 영역 외부를 터치/클릭할 때 지도를 자동으로 다시 잠금
+          document.addEventListener('click', (e) => {
+            const isClickInside = mapContainer.contains(e.target) || (mapOverlay && mapOverlay.contains(e.target));
+            if (!isClickInside) {
+              lockMap();
+            }
+          });
       });
     });
   } else {
