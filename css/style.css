@@ -1338,6 +1338,7 @@ body.loaded .phone-frame {
   width: 320px;
   cursor: pointer;
   transition: transform var(--transition), box-shadow var(--transition);
+  touch-action: pan-y; /* 수평 스와이프 제스처 시 수직 스크롤 간섭 예방 */
 }
 
 /* 이미지 터치/드래그 저장 방지 투명 오버레이 */
@@ -1749,6 +1750,7 @@ body.loaded .phone-frame {
   justify-content: center;
   align-items: center;
   padding: var(--space-md);
+  touch-action: none; /* 라이트박스 오픈 중 전체 화면 세로 스크롤 완전히 차단 */
 }
 
 .lightbox.active {

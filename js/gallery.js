@@ -185,13 +185,27 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }, { passive: true });
 
+        mainCard.addEventListener('touchmove', e => {
+          if (e.touches.length === 1) {
+            const moveX = e.touches[0].clientX;
+            const moveY = e.touches[0].clientY;
+            const dx = moveX - swipeStartX;
+            const dy = moveY - swipeStartY;
+
+            // 가로 이동 거리(dx)가 세로 이동 거리(dy)보다 확연히 클 때 (좌우 스와이프 시도 중)
+            if (Math.abs(dx) > Math.abs(dy)) {
+              e.preventDefault(); // 수직 스크롤 기본 동작 차단 (화면 흔들림 방지 고정)
+            }
+          }
+        }, { passive: false }); // preventDefault 호출을 위해 passive: false 설정 필수
+
         mainCard.addEventListener('touchend', e => {
           if (e.changedTouches.length === 1) {
             const dx = e.changedTouches[0].clientX - swipeStartX;
             const dy = e.changedTouches[0].clientY - swipeStartY;
             
-            // 가로 스와이프가 충분히 길고, 세로 스크롤 시도가 아닐 때만 동작
-            if (Math.abs(dx) > 40 && Math.abs(dy) < 50) {
+            // 가로 스와이프가 충분히 길고, 세로 스크롤 시도가 아닐 때(dx가 dy보다 더 길 때)만 동작
+            if (Math.abs(dx) > 40 && Math.abs(dy) < Math.abs(dx)) {
               if (dx < 0) {
                 setActivePhoto(currentActiveIndex + 1); // 왼쪽으로 쓸기 -> 다음 사진
               } else {
@@ -271,12 +285,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 터치 스와이프 (라이트박스)
   let lbTouchX = 0;
+  let lbTouchY = 0;
   lb?.addEventListener('touchstart', e => {
-    if (e.touches.length === 1) lbTouchX = e.touches[0].clientX;
+    if (e.touches.length === 1) {
+      lbTouchX = e.touches[0].clientX;
+      lbTouchY = e.touches[0].clientY;
+    }
   }, { passive: true });
+  lb?.addEventListener('touchmove', e => {
+    if (e.touches.length === 1) {
+      const dx = e.touches[0].clientX - lbTouchX;
+      const dy = e.touches[0].clientY - lbTouchY;
+      if (Math.abs(dx) > Math.abs(dy)) {
+        e.preventDefault();
+      }
+    }
+  }, { passive: false });
   lb?.addEventListener('touchend', e => {
     const dx = e.changedTouches[0].clientX - lbTouchX;
-    if (Math.abs(dx) > 50) lbGoTo(dx < 0 ? lbIndex + 1 : lbIndex - 1);
+    const dy = e.changedTouches[0].clientY - lbTouchY;
+    if (Math.abs(dx) > 50 && Math.abs(dy) < Math.abs(dx)) {
+      lbGoTo(dx < 0 ? lbIndex + 1 : lbIndex - 1);
+    }
   }, { passive: true });
 });
 
