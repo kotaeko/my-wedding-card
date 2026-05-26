@@ -166,6 +166,60 @@ document.addEventListener('DOMContentLoaded', () => {
     timelineSubtitleEl.innerHTML = parseHighlight(C.timelineSubtitle);
   }
 
+  // 타임라인 라이트박스 열기/닫기 함수 정의 및 이벤트 바인딩
+  const tlLb  = document.getElementById('tl-lightbox');
+  const tlImg = document.getElementById('tl-lightbox-img');
+
+  function openTimelineLightbox(photoUrl) {
+    if (!tlLb || !tlImg) return;
+    tlImg.src = photoUrl;
+    tlLb.classList.add('active');
+    document.body.style.overflow = 'hidden'; // 바디 스크롤 차단
+  }
+
+  function closeTimelineLightbox() {
+    if (!tlLb || !tlImg) return;
+    tlLb.classList.remove('active');
+    document.body.style.overflow = ''; // 바디 스크롤 재개
+    tlImg.src = '';
+  }
+
+  // ✕ 버튼 클릭 시 닫기
+  document.getElementById('tl-lightbox-close')?.addEventListener('click', closeTimelineLightbox);
+
+  // 배경(여백 및 오버레이) 클릭 시 닫기
+  tlLb?.addEventListener('click', e => {
+    if (e.target === e.currentTarget || e.target.classList.contains('photo-overlay')) {
+      closeTimelineLightbox();
+    }
+  });
+
+  // ESC 키 누를 시 닫기
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && tlLb?.classList.contains('active')) {
+      closeTimelineLightbox();
+    }
+  });
+
+  // 이미지 및 오버레이 저장/다운로드/드래그 방지 헬퍼
+  function tlPreventSave(el) {
+    el.addEventListener('contextmenu', e => e.preventDefault());
+    el.addEventListener('dragstart',   e => e.preventDefault());
+  }
+
+  if (tlImg) {
+    tlPreventSave(tlImg);
+    // 확대 방지 (터치 핀치 확대 차단)
+    tlImg.addEventListener('touchmove', e => {
+      if (e.touches.length > 1) e.preventDefault();
+    }, { passive: false });
+  }
+  
+  const tlOverlay = tlLb?.querySelector('.photo-overlay');
+  if (tlOverlay) {
+    tlPreventSave(tlOverlay);
+  }
+
   const timelineList = document.getElementById('timeline-list');
   if (timelineList && Array.isArray(C.timeline)) {
     let photoSide = 'left';
@@ -176,32 +230,61 @@ document.addEventListener('DOMContentLoaded', () => {
         return; // 좌우 교차에 영향 없이 조용히 넘어갑니다.
       }
 
-      // 사진 HTML
-      let photoContent = '';
-      if (item.photo) {
-        photoContent = `<img src="${item.photo}" alt="${item.title}" class="tl-img" loading="lazy">`;
-      } else {
-        photoContent = `<div class="tl-img-placeholder">📷</div>`;
-      }
-
       const side = photoSide;
       const div = document.createElement('div');
       div.className = `tl-row tl-photo-${side}`;
 
-      const photoCol = `<div class="tl-photo-col">${photoContent}</div>`;
-      const lineCol = `<div class="tl-line-col"><div class="tl-dot"></div></div>`;
-      const textCol = `<div class="tl-text-col">
+      // 사진 컬럼 생성 (이벤트 리스너 바인딩을 위해 DOM API 활용)
+      const photoCol = document.createElement('div');
+      photoCol.className = 'tl-photo-col';
+
+      if (item.photo) {
+        const img = document.createElement('img');
+        img.src = item.photo;
+        img.alt = item.title;
+        img.className = 'tl-img';
+        img.loading = 'lazy';
+        
+        // 클릭 시 크게 띄우는 기능 연동
+        img.addEventListener('click', () => {
+          openTimelineLightbox(item.photo);
+        });
+        
+        // 메인 이미지 우클릭/드래그 저장 및 확대 방지 적용
+        tlPreventSave(img);
+
+        photoCol.appendChild(img);
+      } else {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'tl-img-placeholder';
+        placeholder.textContent = '📷';
+        photoCol.appendChild(placeholder);
+      }
+
+      const lineCol = document.createElement('div');
+      lineCol.className = 'tl-line-col';
+      lineCol.innerHTML = '<div class="tl-dot"></div>';
+
+      const textCol = document.createElement('div');
+      textCol.className = 'tl-text-col';
+      textCol.innerHTML = `
         ${item.date ? `<span class="tl-date-sub">${parseHighlight(item.date)}</span>` : ''}
         <div class="tl-title-row">
           ${item.icon ? `<span class="tl-icon">${item.icon}</span>` : ''}
           <span class="tl-title">${parseHighlight(item.title)}</span>
         </div>
         <p class="tl-desc">${parseHighlight(item.description)}</p>
-      </div>`;
+      `;
 
-      div.innerHTML = side === 'left'
-        ? photoCol + lineCol + textCol
-        : textCol + lineCol + photoCol;
+      if (side === 'left') {
+        div.appendChild(photoCol);
+        div.appendChild(lineCol);
+        div.appendChild(textCol);
+      } else {
+        div.appendChild(textCol);
+        div.appendChild(lineCol);
+        div.appendChild(photoCol);
+      }
 
       timelineList.appendChild(div);
       photoSide = photoSide === 'left' ? 'right' : 'left';

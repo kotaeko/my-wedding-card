@@ -1240,6 +1240,13 @@ body.loaded .phone-frame {
   object-fit: cover;
   border-radius: 16px; /* 더욱 부드럽게 둥글려진 모서리 */
   display: block;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.tl-img:hover {
+  transform: scale(1.04);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .tl-img-placeholder {
