@@ -3,6 +3,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   const C = WEDDING_CONTENT;
+  let triggerBGM = () => {}; // BGM 자동 재생 트리거용 함수 예약
 
   // ── 페이지 제목 + OG 태그 ────────────────────────────────
   const pageTitle = C.ogTitle || `${C.groomName} ♥ ${C.brideName} 결혼합니다`;
@@ -478,6 +479,9 @@ document.addEventListener('DOMContentLoaded', () => {
       isAnimating = true;
       envelopeScene.classList.add('is-open', 'is-animating');
 
+      // 봉투를 여는 동작(사용자 상호작용)이 시작될 때 BGM 재생 시도
+      triggerBGM();
+
       const bottomText = document.getElementById('hero-bottom-text');
       if (bottomText) bottomText.classList.add('fade-out');
 
@@ -680,10 +684,12 @@ function initFadeIn() {
 (function initBGM() {
   const audio = document.getElementById('bgm');
   const btn = document.getElementById('bgm-btn');
-  const iconOn = btn.querySelector('.bgm-icon-on');
-  const iconOff = btn.querySelector('.bgm-icon-off');
   if (!audio || !btn) return;
 
+  const iconOn = btn.querySelector('.bgm-icon-on');
+  const iconOff = btn.querySelector('.bgm-icon-off');
+
+  let bgmStarted = false;
   let userPaused = false; // 사용자가 직접 끈 경우
 
   function setPlaying(playing) {
@@ -700,26 +706,57 @@ function initFadeIn() {
     }
   }
 
-  // 초기 상태: 재생 중(자동재생 시도 전이므로 on 아이콘 표시)
+  // BGM 재생 함수
+  function playAudio() {
+    if (bgmStarted || userPaused) return Promise.resolve();
+    audio.volume = 0.4;
+    return audio.play().then(() => {
+      bgmStarted = true;
+      setPlaying(true);
+      removeInteractionListeners();
+    });
+  }
+
+  // 외부(예: 봉투 열기 이벤트)에서 사용할 수 있도록 트리거 바인딩
+  triggerBGM = () => {
+    playAudio().catch(() => {});
+  };
+
+  const interactionEvents = ['click', 'touchend', 'pointerup', 'keydown'];
+
+  function handleInteraction() {
+    triggerBGM();
+  }
+
+  function addInteractionListeners() {
+    interactionEvents.forEach(event => {
+      document.addEventListener(event, handleInteraction);
+    });
+  }
+
+  function removeInteractionListeners() {
+    interactionEvents.forEach(event => {
+      document.removeEventListener(event, handleInteraction);
+    });
+  }
+
+  // 초기 상태: 일단 재생 중인 상태의 아이콘을 보여줌
   setPlaying(true);
+
+  // 사용자 제스처 이벤트 리스너를 즉시 등록
+  addInteractionListeners();
 
   // 자동 재생 시도 (로딩 완료 후)
   function tryAutoplay() {
+    if (bgmStarted) return;
     audio.volume = 0.4;
     audio.play().then(() => {
+      bgmStarted = true;
       setPlaying(true);
+      removeInteractionListeners();
     }).catch(() => {
-      // 브라우저가 자동재생을 차단 → 첫 터치/클릭 시 재생
+      // 브라우저가 자동재생을 차단했을 때만 아이콘을 OFF로 변경
       setPlaying(false);
-      const playOnInteraction = () => {
-        if (!userPaused) {
-          audio.play().then(() => setPlaying(true)).catch(() => { });
-        }
-        document.removeEventListener('touchstart', playOnInteraction);
-        document.removeEventListener('click', playOnInteraction);
-      };
-      document.addEventListener('touchstart', playOnInteraction, { once: true });
-      document.addEventListener('click', playOnInteraction, { once: true });
     });
   }
 
@@ -738,7 +775,9 @@ function initFadeIn() {
     if (audio.paused) {
       audio.play().then(() => {
         userPaused = false;
+        bgmStarted = true;
         setPlaying(true);
+        removeInteractionListeners();
       }).catch(() => { });
     } else {
       audio.pause();
