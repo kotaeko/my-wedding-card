@@ -722,7 +722,7 @@ function initFadeIn() {
     playAudio().catch(() => {});
   };
 
-  const interactionEvents = ['click', 'touchend', 'pointerup', 'keydown'];
+  const interactionEvents = ['click', 'touchstart', 'touchend', 'pointerup', 'keydown'];
 
   function handleInteraction() {
     triggerBGM();
@@ -745,9 +745,6 @@ function initFadeIn() {
 
   // 사용자 제스처 이벤트 리스너를 즉시 등록
   addInteractionListeners();
-
-  // 오디오 파일 백그라운드 버퍼링 강제 시작 (대기 지연 시간 단축)
-  audio.load();
 
   // 자동 재생 시도 (로딩 완료 후)
   function tryAutoplay() {
