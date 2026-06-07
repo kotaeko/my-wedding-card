@@ -737,7 +737,7 @@ function initFadeIn() {
     playAudio().catch(() => {});
   };
 
-  const interactionEvents = ['click', 'touchstart', 'touchend', 'pointerup', 'keydown'];
+  const interactionEvents = ['click', 'touchstart', 'touchend', 'pointerup', 'keydown', 'wheel', 'scroll'];
 
   function handleInteraction() {
     triggerBGM();
