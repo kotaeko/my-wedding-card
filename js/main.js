@@ -479,9 +479,6 @@ document.addEventListener('DOMContentLoaded', () => {
       isAnimating = true;
       envelopeScene.classList.add('is-open', 'is-animating');
 
-      // 봉투를 여는 동작(사용자 상호작용)이 시작될 때 BGM 재생 시도
-      triggerBGM();
-
       const bottomText = document.getElementById('hero-bottom-text');
       if (bottomText) bottomText.classList.add('fade-out');
 
@@ -691,6 +688,7 @@ function initFadeIn() {
 
   let bgmStarted = false;
   let userPaused = false; // 사용자가 직접 끈 경우
+  let playPending = false;
 
   function setPlaying(playing) {
     if (playing) {
@@ -708,12 +706,17 @@ function initFadeIn() {
 
   // BGM 재생 함수
   function playAudio() {
-    if (bgmStarted || userPaused) return Promise.resolve();
+    if (bgmStarted || userPaused || playPending) return Promise.resolve();
     audio.volume = 0.4;
+    playPending = true;
     return audio.play().then(() => {
       bgmStarted = true;
+      playPending = false;
       setPlaying(true);
       removeInteractionListeners();
+    }).catch((err) => {
+      playPending = false;
+      throw err;
     });
   }
 
