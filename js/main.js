@@ -467,6 +467,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (envelopeScene) {
     let isOpen = false;
     let isAnimating = false;
+    let isDraggingEnvelope = false; // 봉투 드래그 중 여부
 
     // 처음 로딩 시 스크롤 잠금
     if (window.scrollY === 0) {
@@ -542,11 +543,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let startY = 0;
     window.addEventListener('touchstart', (e) => {
       startY = e.touches[0].clientY;
+      if (!isOpen) {
+        isDraggingEnvelope = true;
+      }
     }, { passive: true });
 
     window.addEventListener('touchmove', (e) => {
-      // 1. 봉투가 열리기 전(첫 화면)에는 브라우저 네이티브 바운스(전체 화면 스크롤) 방지
-      if (!isOpen) {
+      // 1. 봉투가 열리기 전(첫 화면)이거나 봉투를 드래그 중인 동안에는 네이티브 스크롤 방지
+      if (isDraggingEnvelope || !isOpen) {
         if (e.cancelable) {
           e.preventDefault();
         }
@@ -571,6 +575,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     }, { passive: false });
+
+    window.addEventListener('touchend', () => {
+      isDraggingEnvelope = false;
+    }, { passive: true });
+
+    window.addEventListener('touchcancel', () => {
+      isDraggingEnvelope = false;
+    }, { passive: true });
 
     // 3. 데스크톱 휠 감지
     window.addEventListener('wheel', (e) => {
